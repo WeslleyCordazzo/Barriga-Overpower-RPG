@@ -89,31 +89,32 @@ banco_de_itens = {
 "Graveto" : {"tipo": "material", "quantidade": 1},
 
 "Pano" : {"tipo": "material", "quantidade": 1},
+
+"Obsidiana" : {"tipo": "material", "quantidade": 1}
 }
 
 receitas = {
     # Armas
     "Espada de Madeira": {
-        "Madeira": 2,
+        "Madeira": 4,
         "Graveto": 1,
         "Sipó": 1
     },
 
     "Espada de Pedra": {
-        "Pedra": 2,
+        "Pedra": 5,
         "Graveto": 1,
         "Sipó": 1
     },
 
     "Espada de Ferro": {
-        "Ferro": 2,
+        "Ferro": 5,
         "Graveto": 1,
         "Sipó": 1
     },
 
     "Espada de Obsidiana": {
-        "Ferro": 1,
-        "Diamante": 2,
+        "Obsidiana" : 5,
         "Graveto": 1,
         "Sipó": 2
     },
@@ -150,11 +151,18 @@ receitas = {
         "Pano": 2
     },
 
-    "Armadura de Diamante Abençoada": {
+    "Armadura de Diamante": {
         "Diamante": 8,
         "Ferro": 4,
         "Pano": 2
     },
+
+	"Armadura de Obsidiana": {
+			"Obsidiana": 8,
+			"Diamante": 4,
+			"Ferro": 4,
+			"Pano": 2
+		},
 
     # Itens de cura
     "Poção de Cura pequena": {
@@ -240,18 +248,18 @@ def cadastro():
 		ganhar_xp(10000)	
 		biotipo = "Disciplinudo"
 		b_txt = "+ 9999 aura"
-		coletar_recurso('Espada de Obsidiana', 2)
-		coletar_recurso('Madeira', 5)
-		coletar_recurso("Armadura de Diamante Abençoada", 1)
-		coletar_recurso("kit médico completo", 3)
-		coletar_recurso("Madeira", 99)
-		coletar_recurso("Pedra", 99)
-		coletar_recurso("Ferro", 99)
-		coletar_recurso("Sipó", 99)
-		coletar_recurso("Graveto", 99)
-		coletar_recurso("Diamante", 99)
-		coletar_recurso("Graveto", 99)
-		coletar_recurso("Pano", 99)
+		coletar_auto('Espada de Obsidiana', 2)
+		coletar_auto('Madeira', 5)
+		coletar_auto("Armadura de Diamante Abençoada", 1)
+		coletar_auto("kit médico completo", 3)
+		coletar_auto("Madeira", 99)
+		coletar_auto("Pedra", 99)
+		coletar_auto("Ferro", 99)
+		coletar_auto("Sipó", 99)
+		coletar_auto("Graveto", 99)
+		coletar_auto("Diamante", 99)
+		coletar_auto("Graveto", 99)
+		coletar_auto("Pano", 99)
 		#
 
 	if n_classe not in range(1, 5):
@@ -411,7 +419,7 @@ def acoes():
 	| 1 - Explorar a floresta  ===========|
 	| 2 - Inventário/Criar item  =========|
 	| 3 - Checar Ficha  ==================|
-	| 4 - Pegar recursos   ====| 
+	| 4 - Pegar recursos  ================| 
 	=  
 	:"""))
 	
@@ -423,11 +431,7 @@ def acoes():
 		ver_ficha()
 	if acao == 4:
 		pegar_recursos()
-
-def pegar_recursos():
-	acao = input("""
-	1 - Coletar itens do chão
-	2 - """)								
+#							
 						
 def explorar():
 		acontece = 1#random.randint(1, 10)
@@ -697,8 +701,24 @@ def coletar_recurso(item, quantidade):
             
         print(f"\nVocê coletou {item}!")
 
+def coletar_auto(item, quantidade):
+    global nivel_inv, capacidade
+    exibir_mochila()
+    if qtd_livre == 0:
+        print(f"Seu inventario esta cheio!\nVocê nao conseguio coletar {quantidade} {item}")
+        return
+
+    if item in inventario:
+        inventario[item]["quantidade"] += quantidade
+    else:
+        inventario[item] = banco_de_itens[item].copy()
+        inventario[item]['quantidade'] = quantidade
+            
+        print(f"\nVocê coletou {quantidade} {item}!")
+
+
 def ver_criacoes():
-	n = 0
+	n = 1
 	for item in receitas:
 		materiais = receitas[item]
 		print(f"\n={n}=\n{item} :\n{materiais}")
@@ -750,7 +770,68 @@ def criar():
 		inventario[receita] = banco_de_itens[receita].copy()
 
 	print(f"\n{N_VERDE}Você criou {receita}!{RESET}")
-					
+
+
+def pegar_recursos():
+	acao = input("""
+	==:
+	1 - Coletar itens do chão
+	2 - Quebrar Árvores
+	3 - Mineirar
+	==: """)
+
+	if acao == "1":
+		coleta()
+	elif acao == "2":
+		coleta_arvores()
+	elif acao == "3":
+		coleta_mina()
+	else:
+		print("Acão inexistente...")
+		return
+
+#
+def coleta():
+	global energia
+	item1 = random.choice(["Madeira", "Pedra", "Sipó", "Graveto", "Pano", "Cogumelo Amanita muscaria", "Cogumelo Champignon"])
+	item2 = random.choice(["Madeira", "Pedra", "Sipó", "Graveto", "Pano", "Cogumelo Amanita muscaria", "Cogumelo Champignon"])
+	qtd1 = random.randint(1, 5)
+	qtd2 = random.randint(1, 5)
+
+	if random.randint(1, 6) == 6:
+		print("Vc não achou nada")
+	else:
+		coletar_auto(item1, qtd1)
+		coletar_auto(item2, qtd2)
+
+	print(f"\nVocê achou {qtd1} {item1} e {qtd2} {item2}\n")
+	energia -= 15
+	print(f"Voce gastou {N_LARANJA}15 energia{RESET}")
+	limitar_status()
+
+#
+def coleta_arvores():
+	vida_arvore = random.randint(60, 180)
+	qtd_madeiras = random.randint(8, 20)
+	combate("Árvore", vida_arvore, [0, 0, 1, 2])
+	coletar_auto("Madeira", qtd_madeiras)
+#
+def coleta_mina():
+	global energia
+	qtd_pedra = random.randint(5, 12)
+
+	if random.randint(1, 4) == 4:
+		print("Vc não achou nada")
+	else:
+		item = random.choice(["Ferro", "Diamante", "Obsidiana"])
+		qtd = random.randint(1, 5)
+
+		coletar_auto(item, qtd)
+
+	energia -= 20
+	print(f"Voce gastou {N_LARANJA}20 energia{RESET}")
+	limitar_status()
+
 # inicio
 print(f"{F_BRANCO}{C_PRETO} ==_Barriga Overpower_== {RESET}")
 input("Pressione enter para jogar\n")
