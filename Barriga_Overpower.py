@@ -2,19 +2,16 @@ import time
 import random 
 
 #atributos
-
 vida = 50
 vida_max = 50
-vida_perdida = 0
 dano = 10
 defesa = 10
-energia = 100
-energia_max = 100
+energia = 150
+energia_max = 150
 level = 1
 xp = 0
 #
 rodada = 1
-turno = 1
 #
 arma_atual = "Nenhuma"
 armadura_atual = "Nenhuma"
@@ -51,14 +48,18 @@ banco_de_itens = {
 
 "Armadura de Ferro" : {"tipo": "armadura", "quantidade": 1, "defesa": 9},
 
-"Armadura de Diamante Abençoada" : {"tipo": "armadura", "quantidade": 1, "defesa": 15},
+"Armadura de Diamante" : {"tipo": "armadura", "quantidade": 1, "defesa": 15},
 
 
-"Carne de Lobo": {"tipo": "comida", "quantidade": 1, "energia": 10},
+"Carne Magra": {"tipo": "comida", "quantidade": 1, "energia": 20},
 
-"Carne de Gado": {"tipo": "comida", "quantidade": 1, "energia": 15},
+"Carne Gorda": {"tipo": "comida", "quantidade": 1, "energia": 30},
 
-"Cogumelo Champignon": {"tipo": "comida", "quantidade": 1, "energia": 3},
+"Carne Magra assada": {"tipo": "comida", "quantidade": 1, "energia": 30},
+
+"Carne Gorda assada": {"tipo": "comida", "quantidade": 1, "energia": 40},
+
+"Cogumelo Champignon": {"tipo": "comida", "quantidade": 1, "energia": 5},
 
 "Cogumelo Amanita muscaria": {"tipo": "comida", "quantidade": 1, "energia": -50},
 
@@ -81,6 +82,8 @@ banco_de_itens = {
 "Pedra" : {"tipo": "material", "quantidade": 1},
 
 "Ferro" : {"tipo": "material", "quantidade": 1},
+
+"Carvão" : {"tipo": "material", "quantidade": 1},
 
 "Sipó" : {"tipo": "material", "quantidade": 1},
 
@@ -109,18 +112,18 @@ receitas = {
 
     "Espada de Ferro": {
         "Ferro": 5,
-        "Graveto": 1,
-        "Sipó": 1
+        "Madeira": 1,
+        "Sipó": 2
     },
 
     "Espada de Obsidiana": {
         "Obsidiana" : 5,
-        "Graveto": 1,
+        "Madeira": 1,
         "Sipó": 2
     },
 
     "Adaga improvisada": {
-        "Pedra": 1,
+        "Pedra": 2,
         "Graveto": 1
     },
 
@@ -131,14 +134,15 @@ receitas = {
     },
 
     # Armaduras
-    "Escudo de Madeira Pequeno": {
+    "Escudo de Madeira": {
         "Madeira": 4,
         "Sipó": 2
     },
 
-    "Escudo de Aluminio grande": {
+    "Escudo de Ferro": {
         "Ferro": 5,
-        "Madeira": 2
+        "Madeira": 2,
+        "Sipó": 2
     },
 
     "Armadura de Malha": {
@@ -163,7 +167,18 @@ receitas = {
 			"Ferro": 4,
 			"Pano": 2
 		},
-
+	
+	#comidas
+	"Carne Magra assada": {
+			"Carne Magra": 2,
+			"Carvão": 2
+		},
+		
+	"Carne Gorda assada": {
+			"Carne gorda": 2,
+			"Carvão": 2
+		},	
+	
     # Itens de cura
     "Poção de Cura pequena": {
         "Cogumelo Champignon": 2,
@@ -250,7 +265,7 @@ def cadastro():
 		b_txt = "+ 9999 aura"
 		coletar_auto('Espada de Obsidiana', 2)
 		coletar_auto('Madeira', 5)
-		coletar_auto("Armadura de Diamante Abençoada", 1)
+		coletar_auto("Armadura de Diamante", 1)
 		coletar_auto("kit médico completo", 3)
 		coletar_auto("Madeira", 99)
 		coletar_auto("Pedra", 99)
@@ -434,34 +449,95 @@ def acoes():
 #							
 						
 def explorar():
-		acontece = 1#random.randint(1, 10)
+		acontece = random.randint(1, 4)
 		if acontece == 1:
 			lobo()
-		#if acontece == 2:
-			
-			
+		if acontece == 2:
+			goblin()
+		if acontece == 3:
+			macieira()
+		if acontece == 4:
+			lenhador()
+
 
 ### 1
 def lobo():
 		time.sleep(1)
-		print("Em sua caminhada, um lobo solitário surge da mata e tenta te atacar ")
+		print("Em sua caminhada, um lobo solitário surge da mata e tenta te atacar\n ")
 		time.sleep(1)
-		combate("Lobo", 20, [17, 22])
-		coletar_recurso("Carne de Lobo", 3)
+		combate("Lobo", 20, range(17, 23), 10)
+		if vida > 0:
+			coletar_recurso("Carne Magra", 3)
 		
 ### 2
-#def ():
+def goblin():
+	lista = list(inventario.keys())
+	if len(lista) > 0:
+		item = random.choice(lista)
+	if len(lista) == 0:
+		coisa = "Sua mochila"
+	else:
+		coisa = f"{item} de seu inventario"
+	print(f"Enquanto voce anda em um campo aberto, um goblin casual tenta roubar {coisa}\n")
+	time.sleep(1)
+	combate("Globin", 17, range(12, 23), 8)
 
+	if vida > 0:
+		coletar_recurso("Adaga", 1)
+		coletar_recurso("Maça", 4)
+
+	if random.randint(1, 4) == 4 and len(lista)>0:
+		inventario[item]["quantidade"] -= 1
+		if inventario[item]["quantidade"] == 0:
+			del inventario[item]
+		exibir_mochila()
+		print(f"{item} dessapareceu! para onde foi?")
+
+### 3
+def macieira():
+	tamanho = random.choice(["pequena", "media", "grande"])
+	if tamanho == "pequena":
+		macas = 5
+	elif tamanho == "media":
+		macas = 8
+	else:
+		macas = 11
+
+	print(f"Voce achou uma macieira {tamanho}")
+	coletar_recurso("Maça", macas)
+	
+### 4
+def lenhador():
+	print("Você acaba encontrando um lenhador cortando arvores perto de uma cabana...")
+	time.sleep(0.7)
+	print("-Epa, neném!")
+	time.sleep(0.5)
+	esc = input("-Quanto tempo que nao vejo alguem!.. por acasso vc nao gostaria de comprar estas carnes gordas? apenas 2 ferros cada!(S/N)")
+	if esc.upper() == "S": 
+		carnes = int(input("-Quantas?"))
+		ferros = carnes * 2
+
+		if inventario.get("Ferro", {}).get("quantidade", 0) < ferros:
+			print("Voce nao tem os ferros necessarios...")
+			print("-nao aceito fiado! vaza daqui buti")
+			return
+		else:
+			inventario["Ferro"]["quantidade"] -= ferros
+			if inventario["Ferro"]["quantidade"] == 0:
+				del inventario["Ferro"]
+			coletar_auto("Carne Gorda", carnes)
+			exibir_mochila()
+	else:
+		print("ok... até mais!")
 
 #
-
 def ver_ficha():
     print(f"\n ======== Ficha De Aventureiro ==========\n | Nome: {jogador} | Classe: {classe} | Biotipo: {biotipo} |\n | {N_AZUL}dano: {dano}{RESET} | {N_AZUL}defesa: {defesa}{RESET} | {N_VERMELHO}Vida: {vida}/{vida_max}{RESET} | {N_LARANJA}Energia: {energia}/{energia_max}{RESET} |\n | {rank_cor}Level: {level}({rank_texto}){RESET} | {N_AMARELO}XP: {xp}/10{RESET} | {N_AMARELO}Bônus XP: {bonus_xp}{RESET} | \n | Arma: {arma_atual} (+{dano_arma} dano) | Armadura: {armadura_atual} (+{defesa_armadura} defesa)\n ========================================")
     time.sleep(2)
 
 
-def combate(inimigo, vida_inimigo, dano_inimigo):
-	global dano, vida, vida_max, vida_perdida,  jogador, rodada, energia, defesa_armadura, dano_arma
+def combate(inimigo, vida_inimigo, dano_inimigo, qtd_xp):
+	global vida, vida_perdida,  jogador, rodada, energia, defesa_armadura, dano_arma
 	
 	print(f"\033[100m\033[97m--- {jogador.upper()} VS {inimigo.upper()} ---\033[0m")
 	
@@ -475,18 +551,17 @@ def combate(inimigo, vida_inimigo, dano_inimigo):
 		if ataque == "s":
 			defesa_atual = defesa + defesa_armadura
 			dano_inimigo_atual = random.choice(dano_inimigo)
-			if dano_inimigo_atual < defesa:
-				dano_inimigo_atual = 0
 			vida -= dano_inimigo_atual
+			limitar_status()
 			
 			print(f"{inimigo} te acertou\n Você perdeu {dano_inimigo_atual} de vida . ({vida}/{vida_max})\n")
 			
-		else:
-			print(f"Inimigo errou!\n")
-			
-		#se jogador morrer
+			#se jogador morrer
 		if vida <= 0:
 			return
+			
+		else:
+			print(f"Inimigo errou!\n")
 			
 		time.sleep(2)
 		
@@ -495,7 +570,7 @@ def combate(inimigo, vida_inimigo, dano_inimigo):
 		if ataque == "s":
 			dano_atual = dano + dano_arma
 			vida_inimigo -= dano_atual
-			print(f"Você causou {dano} de dano em {inimigo}\n")
+			print(f"Você causou {dano_atual} de dano em {inimigo}\n")
 		else:
 			print(f"Você errou!\n")
 		time.sleep(0.5)
@@ -503,7 +578,7 @@ def combate(inimigo, vida_inimigo, dano_inimigo):
 	print(f"{jogador} derrotou {inimigo}.")
 	time.sleep(1)
 	
-	ganhar_xp(10)
+	ganhar_xp(qtd_xp)
 	
 	energia -= 20
 	limitar_status()
@@ -530,6 +605,7 @@ def ganhar_xp(q_xp):
 			nivel_inv += 1	
 		
 		limitar_status()
+		verificar_level()
 
 		print(f"\n{N_VERDE}Você subiu de Nivel! (atributos melhorados) {RESET}")
 			
@@ -617,7 +693,7 @@ def usar_item():
 		
 	if dados_item["tipo"] == "cura":
 		vida += dados_item['cura']
-		print(f"{C_VERDE}Você usou {nome_item} (+{dados_item['cura']} vida){RESET}")
+		print(f"{C_VERDE}Você usou {nome_item} (+{dados_item['cura']} vida)({vida}/{vida_max}){RESET}")
 		
 	if dados_item["tipo"] == "armadura":
 		armadura_atual = nome_item
@@ -626,7 +702,7 @@ def usar_item():
 		
 	if dados_item["tipo"] == "comida":
 		energia += dados_item['energia']
-		print(f"{C_VERDE}Você comeu {nome_item} (+{dados_item['energia']}){RESET}")
+		print(f"{C_VERDE}Você comeu {nome_item} (+{dados_item['energia']} energia)({energia}/{energia_max}){RESET}")
 		
 	if dados_item["tipo"] == "material":
 			print("Você não pode usar/equipar um material")
@@ -636,13 +712,15 @@ def usar_item():
 	if inventario[nome_item]['quantidade'] == 0:
 		del inventario[nome_item]
 	print(f"1 {nome_item} foi tirado do inventario")
-		
+	exibir_mochila()	
 	limitar_status()
 	
 	
 def exibir_mochila():
     global qtd_livre
-    capacidade = nivel_inv * 2 + 2
+    capacidade = nivel_inv * 2 + 3
+    if capacidade > 30:
+	    capacidade = 30
     n = 1
     qtd = len(inventario.keys())
     qtd_livre = capacidade - qtd
@@ -730,7 +808,7 @@ def criar():
 	receitas_lista = list(receitas.keys())
 	i = int(input("Qual item você gostaria de criar?\n:")) - 1
 	
-	if i < 0 or i > len(receitas_lista):
+	if i < 0 or i >= len(receitas_lista):
 		print('Receita invalida')
 		return
 
@@ -770,6 +848,8 @@ def criar():
 		inventario[receita] = banco_de_itens[receita].copy()
 
 	print(f"\n{N_VERDE}Você criou {receita}!{RESET}")
+	
+	exibir_mochila()
 
 
 def pegar_recursos():
@@ -778,6 +858,7 @@ def pegar_recursos():
 	1 - Coletar itens do chão
 	2 - Quebrar Árvores
 	3 - Mineirar
+	4 - voltar
 	==: """)
 
 	if acao == "1":
@@ -786,6 +867,8 @@ def pegar_recursos():
 		coleta_arvores()
 	elif acao == "3":
 		coleta_mina()
+	elif acao =="4":
+		return
 	else:
 		print("Acão inexistente...")
 		return
@@ -793,7 +876,7 @@ def pegar_recursos():
 #
 def coleta():
 	global energia
-	item1 = random.choice(["Madeira", "Pedra", "Sipó", "Graveto", "Pano", "Cogumelo Amanita muscaria", "Cogumelo Champignon"])
+	item1 = random.choice(["Pedra", "Sipó", "Graveto", "Pano", "Cogumelo Amanita muscaria", "Cogumelo Champignon"])
 	item2 = random.choice(["Madeira", "Pedra", "Sipó", "Graveto", "Pano", "Cogumelo Amanita muscaria", "Cogumelo Champignon"])
 	qtd1 = random.randint(1, 5)
 	qtd2 = random.randint(1, 5)
@@ -806,14 +889,18 @@ def coleta():
 
 	print(f"\nVocê achou {qtd1} {item1} e {qtd2} {item2}\n")
 	energia -= 15
-	print(f"Voce gastou {N_LARANJA}15 energia{RESET}")
+	print(f"Voce gastou {N_LARANJA}15 energia{RESET}({energia}/{energia_max})")
 	limitar_status()
 
 #
 def coleta_arvores():
+	global defesa_atual
+
 	vida_arvore = random.randint(60, 180)
-	qtd_madeiras = random.randint(8, 20)
-	combate("Árvore", vida_arvore, [0, 0, 1, 2])
+	qtd_madeiras = random.randint(10, 20)
+
+	defesa_atual = defesa + defesa_armadura
+	combate("Árvore", vida_arvore, [0, 0, defesa_atual+1, defesa_atual+2], 3)
 	coletar_auto("Madeira", qtd_madeiras)
 #
 def coleta_mina():
@@ -829,7 +916,7 @@ def coleta_mina():
 		coletar_auto(item, qtd)
 
 	energia -= 20
-	print(f"Voce gastou {N_LARANJA}20 energia{RESET}")
+	print(f"Voce gastou {N_LARANJA}20 energia{RESET}({energia}/{energia_max})")
 	limitar_status()
 
 # inicio
@@ -850,3 +937,4 @@ while vida > 0:
 print(f"\n{F_VERMELHO}{C_BRANCO} === Fim de Jogo === {RESET}\n")
 print("Atributos conquistados:\n")
 ver_ficha()
+
