@@ -900,7 +900,7 @@ def coleta_arvores():
 	qtd_madeiras = random.randint(10, 20)
 
 	defesa_atual = defesa + defesa_armadura
-	combate("Árvore", vida_arvore, [0, 0, defesa_atual+1, defesa_atual+2], 3)
+	combate("Árvore", vida_arvore, [0, 0, 1, 2, 3)
 	coletar_auto("Madeira", qtd_madeiras)
 #
 def coleta_mina():
