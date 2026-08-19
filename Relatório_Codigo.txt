@@ -1,3 +1,0 @@
- O código funciona a partir de um laço de repetição com a condição de parada sendo a vida do jogador ser menor ou igual a zero, que roda todas as ações de jogo depois de efetuar a história e o cadastro de jogador, onde nessa ações o jogador pode coletar recursos, gerenciar o inventário e passar por eventos aleatórios.
-Após o laço ser quebrado, o código mostra uma mensagem de fim de jogo, e mostra a ficha final do jogador.
- Entre as inteligência artificiais utilizadas estão o Chat gpt 5.6 para a criação das receitas de itens e sugestão de ideias e o Claude no sonnet 5 para verificação e apontamento de erros.
