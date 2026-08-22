@@ -21,6 +21,7 @@ defesa_armadura = 0
 biotipos = ["Robusto", "Ágil", "Resistente", "Intelectual"]
 biotipo = ""
 bonus_xp = 0
+batalhas = 0
 #
 nivel_inv = 1
 qtd_livre = 0
@@ -161,24 +162,24 @@ receitas = {
         "Pano": 2
     },
 
-	"Armadura de Obsidiana": {
-			"Obsidiana": 8,
-			"Diamante": 4,
-			"Ferro": 4,
-			"Pano": 2
-		},
-	
-	#comidas
-	"Carne Magra assada": {
-			"Carne Magra": 2,
-			"Carvão": 2
-		},
-		
-	"Carne Gorda assada": {
-			"Carne gorda": 2,
-			"Carvão": 2
-		},	
-	
+        "Armadura de Obsidiana": {
+                        "Obsidiana": 8,
+                        "Diamante": 4,
+                        "Ferro": 4,
+                        "Pano": 2
+                },
+
+        #comidas
+        "Carne Magra assada": {
+                        "Carne Magra": 2,
+                        "Carvão": 2
+                },
+
+        "Carne Gorda assada": {
+                        "Carne gorda": 2,
+                        "Carvão": 2
+                },        
+
     # Itens de cura
     "Poção de Cura pequena": {
         "Cogumelo Champignon": 2,
@@ -243,82 +244,82 @@ rank_texto = "Iniciante"
 #funcoes de config
 
 def cadastro():
-	global jogador, biotipo, vida, energia, vida_max, energia_max, dano, defesa, classe, bonus_xp
-	
-	jogador = input("\nBoas Vindas novo aventureiro! Gostaria de se registrar?\nPrimeiro, Como você gostaria de ser chamado?\n:")
+        global jogador, biotipo, vida, energia, vida_max, energia_max, dano, defesa, classe, bonus_xp
 
-	n_classe = int(input("""Qual é a sua classe?
+        jogador = input("\nBoas Vindas novo aventureiro! Gostaria de se registrar?\nPrimeiro, Como você gostaria de ser chamado?\n:")
+
+        n_classe = int(input("""Qual é a sua classe?
        =============================
-	| 1 - Guerreiro	| (maior dano)               
-	| 2 - Tanque   	| (maior defesa)            
-	| 3 - Sábio 	| (maior ganho de xp)  
-	| 4 - Atleta    | (maior energia)
+        | 1 - Guerreiro        | (maior dano)               
+        | 2 - Tanque           | (maior defesa)            
+        | 3 - Sábio         | (maior ganho de xp)  
+        | 4 - Atleta    | (maior energia)
        ==============================
        :"""))
-	
-	#modo admin de teste
-	if jogador == "weslley safadao" and n_classe == 1:
-		print("Ativando modo tiki yara aura admin...")
-		time.sleep(3)
-		ganhar_xp(10000)	
-		biotipo = "Disciplinudo"
-		b_txt = "+ 9999 aura"
-		coletar_auto('Espada de Obsidiana', 2)
-		coletar_auto('Madeira', 5)
-		coletar_auto("Armadura de Diamante", 1)
-		coletar_auto("kit médico completo", 3)
-		coletar_auto("Madeira", 99)
-		coletar_auto("Pedra", 99)
-		coletar_auto("Ferro", 99)
-		coletar_auto("Sipó", 99)
-		coletar_auto("Graveto", 99)
-		coletar_auto("Diamante", 99)
-		coletar_auto("Graveto", 99)
-		coletar_auto("Pano", 99)
-		#
 
-	if n_classe not in range(1, 5):
-		n_classe = random.randint(1, 4)
-		print("*Classe desconhecida*\nEscolhendo Classe aleatória... ")
-    	
-	if n_classe == 1:
-		classe = "Guerreiro"
-		dano +=3
-	elif n_classe == 2:
-		classe = "Tanque"
-		defesa += 3
-	elif n_classe == 3:
-		classe = "Sábio"
-		bonus_xp += 3
-	elif n_classe == 4:
-		classe = "Atleta"
-		energia_max += 20
-		energia = energia_max
-		
-		
-	if biotipo == "":
-		biotipo = random.choice(biotipos)
-	if biotipo == "Robusto":
-		vida_max += 5
-		vida = vida_max
-		b_txt = "+5 Vida máxima"
-	elif biotipo == "Ágil":
-			energia_max += 15
-			energia = energia_max
-			b_txt = "+15 Energia máxima"
-	elif biotipo == "Resistente":
-			defesa += 2
-			b_txt = "+2 defesa"
-	elif biotipo == "Intelectual":
-			bonus_xp += 2
-			b_txt = "+2 Bônus de XP"
-			
-			
-	print(f"\nSeu Biotipo ideal classificado nos testes é: {biotipo} ({b_txt})")		
-	
-	ver_ficha()
- 
-	input("Seu cadastro de aventureiro foi concluido!\n-Aperte enter para comecar sua jornada.")
+        #modo admin de teste
+        if jogador == "weslley safadao" and n_classe == 1:
+                print("Ativando modo tiki yara aura admin...")
+                time.sleep(3)
+                ganhar_xp(10000)        
+                biotipo = "Disciplinudo"
+                b_txt = "+ 9999 aura"
+                coletar_auto('Espada de Obsidiana', 2)
+                coletar_auto('Madeira', 5)
+                coletar_auto("Armadura de Diamante", 1)
+                coletar_auto("kit médico completo", 3)
+                coletar_auto("Madeira", 99)
+                coletar_auto("Pedra", 99)
+                coletar_auto("Ferro", 99)
+                coletar_auto("Sipó", 99)
+                coletar_auto("Graveto", 99)
+                coletar_auto("Diamante", 99)
+                coletar_auto("Graveto", 99)
+                coletar_auto("Pano", 99)
+                #
+
+        if n_classe not in range(1, 5):
+                n_classe = random.randint(1, 4)
+                print("*Classe desconhecida*\nEscolhendo Classe aleatória... ")
+
+        if n_classe == 1:
+                classe = "Guerreiro"
+                dano +=3
+        elif n_classe == 2:
+                classe = "Tanque"
+                defesa += 3
+        elif n_classe == 3:
+                classe = "Sábio"
+                bonus_xp += 3
+        elif n_classe == 4:
+                classe = "Atleta"
+                energia_max += 20
+                energia = energia_max
+
+
+        if biotipo == "":
+                biotipo = random.choice(biotipos)
+        if biotipo == "Robusto":
+                vida_max += 5
+                vida = vida_max
+                b_txt = "+5 Vida máxima"
+        elif biotipo == "Ágil":
+                        energia_max += 15
+                        energia = energia_max
+                        b_txt = "+15 Energia máxima"
+        elif biotipo == "Resistente":
+                        defesa += 2
+                        b_txt = "+2 defesa"
+        elif biotipo == "Intelectual":
+                        bonus_xp += 2
+                        b_txt = "+2 Bônus de XP"
+
+
+        print(f"\nSeu Biotipo ideal classificado nos testes é: {biotipo} ({b_txt})")                
+
+        ver_ficha()
+
+        input("Seu cadastro de aventureiro foi concluido!\n-Aperte enter para comecar sua jornada.")
 
 
 
@@ -336,7 +337,7 @@ def historia():
     print("??? - Pelo menos pega os pila na mesa e vai comprar pão pra janta.")
     time.sleep(1.2)
 
-    print("??? - Você sabe que precisa se movimentar.")
+    print("??? - A nutricionista mandou você se movimentar!.")
     time.sleep(1.2)
 
     print("!")
@@ -358,7 +359,7 @@ def historia():
     print("(*Você tropeçou e levantou com uma luz forte na cara*)")
     time.sleep(1.5)
 
-    print("\nQUE P@#$ é essa???")
+    print("\neitha!")
     time.sleep(1.2)
 
     print("Aonde estou? Eu só virei a esquina")
@@ -367,10 +368,10 @@ def historia():
     print("EU ESTOU NUM ISEKAI DE ANIME!")
     time.sleep(1.4)
 
-    print("Finalmente vou poder usar Dattebayo gozaimasu e vencer o rei demônio!")
+    print("Finalmente vou falar japonês e vencer o rei demônio!")
     time.sleep(2)
 
-    print("\n??? - Mãe, olha aquele gordinho esquisito gritando estranho.")
+    print("\n??? - Mãe, olha aquele gordinho esquisito gritando.")
     time.sleep(1.6)
 
     print("??? - Por isso você tem que parar de comer bolachinha recheada, pra nao ficar igual...")
@@ -379,156 +380,157 @@ def historia():
     print("Essas pessoas não entendem minha AURA!")
     time.sleep(1.2)
 
-    print("\n???? - O seu imenso, fecha o bico!")
+    print("\n???? - Cala a boca mr. Obesity!")
     time.sleep(1.2)
 
     print("!")
     time.sleep(0.8)
 
-    print("Que diabos é você? Por que você voa e eu ainda não?")
+    print("Quem é você?")
     time.sleep(1.6)
 
-    print("\nAnjo misteriosa - É o seguinte, o combinado não era você estar aqui...")
+    print("\nHomem misterioso - É o seguinte, aparentemente chamei a pessoa errada para cá..")
     time.sleep(2)
 
-    print("mas eu sinceramente não ligo\n então dá teus pulos.")
+    print("mas eu não quero mais desconto do vale picanha\n então dá teus pulos.")
     time.sleep(2)
 
-    print("Huh? Como assim não deveria estar? Me virar COMO?!?")
+    print("vale de gue?")
     time.sleep(1.6)
 
-    print("ANJO misteriosa - Pare de perguntar e faz igual todos os outros but.")
+    print("Homem misterioso - talvez pedindo dinheiro na rua você nao morra.")
     time.sleep(2)
 
     print("Ma...")
     time.sleep(1.6)
 
-    print("\n(Anjo misteriosa desaparece)")
+    print("\n(Homem misterioso desaparece)")
     time.sleep(1.5)
 
+    print("O que um protagonista como eu faria?")
+    time.sleep(1.5)
+    
     print("Já sei! Vou ir à guilda de aventureiros!")
     time.sleep(1.5)
 
     input("\nEnter para continuar...")
 
-    print("Começo agitado né?")
-    time.sleep(0.5)
-
-    print("\nExplore a floresta e se proteja do que ouver para adquirir armas e recursos Super Legais!")
+    print("\nExplore a floresta e colete recursos e armas maneiras.")
     time.sleep(1.6)
 
-    print("enquanto upa seus atributos e tenta se tornar o mais forte sem morrer!")
+    print("Aumente seu nivel enquanto tenta nao morrer..")
     time.sleep(1.6)
 
-    print("(Ou pelo menos tente não ser mais um gordo...)")
+    print("(Você chegou a guilda de aventureiros para iniciantes da cidade)")
     time.sleep(3)
 
-
-#funcoes de jogo
-
+#funcoes do jogo
 def acoes():
-	acao = int(input("""
-	
-	- O que devo fazer agora?
-	=
-	| 1 - Explorar a floresta  ===========|
-	| 2 - Inventário/Criar item  =========|
-	| 3 - Checar Ficha  ==================|
-	| 4 - Pegar recursos  ================| 
-	=  
-	:"""))
-	
-	if acao == 1:
-		explorar()
-	elif acao == 2:
-		inventario_menu()
-	if acao == 3:
-		ver_ficha()
-	if acao == 4:
-		pegar_recursos()
-#							
-						
+        acao = int(input("""
+        
+        - O que devo fazer agora?
+        =
+        | 1 - Explorar a floresta  ===========|
+        | 2 - Inventário/Criar item  =========|
+        | 3 - Checar Ficha  ==================|
+        | 4 - Pegar recursos  ================| 
+        =  
+        :"""))
+
+        if acao == 1:
+                explorar()
+        elif acao == 2:
+                inventario_menu()
+        if acao == 3:
+                ver_ficha()
+        if acao == 4:
+                pegar_recursos()
+#                                                        
+
 def explorar():
-		acontece = random.randint(1, 4)
-		if acontece == 1:
-			lobo()
-		if acontece == 2:
-			goblin()
-		if acontece == 3:
-			macieira()
-		if acontece == 4:
-			lenhador()
+                acontece = random.randint(1, 5)
+                if acontece == 1:
+                        lobo()
+                if acontece == 2:
+                        goblin()
+                if acontece == 3:
+                        macieira()
+                if acontece == 4:
+                        lenhador()
+                #if acontece == 5:
+                    #
 
 
 ### 1
 def lobo():
-		time.sleep(1)
-		print("Em sua caminhada, um lobo solitário surge da mata e tenta te atacar\n ")
-		time.sleep(1)
-		combate("Lobo", 20, range(17, 23), 10)
-		if vida > 0:
-			coletar_recurso("Carne Magra", 3)
-		
+                time.sleep(1)
+                print("Em sua caminhada, um lobo solitário surge da mata e tenta te atacar\n ")
+                time.sleep(1)
+                combate("Lobo", 20, range(17, 23), 10)
+                if vida > 0:
+                        coletar_recurso("Carne Magra", 3)
+
 ### 2
 def goblin():
-	lista = list(inventario.keys())
-	if len(lista) > 0:
-		item = random.choice(lista)
-	if len(lista) == 0:
-		coisa = "Sua mochila"
-	else:
-		coisa = f"{item} de seu inventario"
-	print(f"Enquanto voce anda em um campo aberto, um goblin casual tenta roubar {coisa}\n")
-	time.sleep(1)
-	combate("Globin", 17, range(12, 23), 8)
+        lista = list(inventario.keys())
+        if len(lista) > 0:
+                item = random.choice(lista)
+        if len(lista) == 0:
+                coisa = "Sua mochila"
+        else:
+                coisa = f"{item} de seu inventario"
+        print(f"Enquanto voce anda em um campo aberto, um goblin casual tenta roubar {coisa}\n")
+        time.sleep(1)
+        combate("Globin", 17, range(12, 23), 8)
 
-	if vida > 0:
-		coletar_recurso("Adaga", 1)
-		coletar_recurso("Maça", 4)
+        if vida > 0:
+                coletar_recurso("Adaga", 1)
+                if random.randint(1, 2) == 1:
+                    coletar_recurso("Maça", random.randint(1, 3))
 
-	if random.randint(1, 4) == 4 and len(lista)>0:
-		inventario[item]["quantidade"] -= 1
-		if inventario[item]["quantidade"] == 0:
-			del inventario[item]
-		exibir_mochila()
-		print(f"{item} dessapareceu! para onde foi?")
+        if random.randint(1, 4) == 4 and len(lista)>0:
+                inventario[item]["quantidade"] -= 1
+                if inventario[item]["quantidade"] == 0:
+                        del inventario[item]
+                exibir_mochila()
+                print(f"O goblin morreu... mas {item} dessapareceu! para onde foi?")
 
 ### 3
 def macieira():
-	tamanho = random.choice(["pequena", "media", "grande"])
-	if tamanho == "pequena":
-		macas = 5
-	elif tamanho == "media":
-		macas = 8
-	else:
-		macas = 11
+        tamanho = random.choice(["pequena", "media", "grande"])
+        if tamanho == "pequena":
+                macas = 4
+        elif tamanho == "media":
+                macas = 6
+        else:
+                macas = 8
 
-	print(f"Voce achou uma macieira {tamanho}")
-	coletar_recurso("Maça", macas)
-	
+        print(f"Voce achou uma macieira {tamanho}")
+        coletar_recurso("Maça", macas)
+
 ### 4
 def lenhador():
-	print("Você acaba encontrando um lenhador cortando arvores perto de uma cabana...")
-	time.sleep(0.7)
-	print("-Epa, neném!")
-	time.sleep(0.5)
-	esc = input("-Quanto tempo que nao vejo alguem!.. por acasso vc nao gostaria de comprar estas carnes gordas? apenas 2 ferros cada!(S/N)")
-	if esc.upper() == "S": 
-		carnes = int(input("-Quantas?"))
-		ferros = carnes * 2
+        print("Você acaba encontrando um lenhador cortando arvores perto de uma cabana...")
+        time.sleep(0.7)
+        print("-Epa, neném!")
+        time.sleep(0.5)
+        esc = input("-Quanto tempo que nao vejo alguem!.. por acasso vc nao gostaria de comprar estas carnes gordas? apenas 2 ferros cada!(S/N)")
+        if esc.upper() == "S": 
+                carnes = int(input("-Quantas?"))
+                ferros = carnes * 2
 
-		if inventario.get("Ferro", {}).get("quantidade", 0) < ferros:
-			print("Voce nao tem os ferros necessarios...")
-			print("-nao aceito fiado! vaza daqui buti")
-			return
-		else:
-			inventario["Ferro"]["quantidade"] -= ferros
-			if inventario["Ferro"]["quantidade"] == 0:
-				del inventario["Ferro"]
-			coletar_auto("Carne Gorda", carnes)
-			exibir_mochila()
-	else:
-		print("ok... até mais!")
+                if inventario.get("Ferro", {}).get("quantidade", 0) < ferros:
+                        print("Voce nao tem os ferros necessarios...")
+                        print("-nao aceito fiado! vaza daqui buti")
+                        return
+                else:
+                        inventario["Ferro"]["quantidade"] -= ferros
+                        if inventario["Ferro"]["quantidade"] == 0:
+                                del inventario["Ferro"]
+                        coletar_auto("Carne Gorda", carnes)
+                        exibir_mochila()
+        else:
+                print("ok... até mais!")
 
 #
 def ver_ficha():
@@ -537,81 +539,82 @@ def ver_ficha():
 
 
 def combate(inimigo, vida_inimigo, dano_inimigo, qtd_xp):
-	global vida, vida_perdida,  jogador, rodada, energia, defesa_armadura, dano_arma
-	
-	print(f"\033[100m\033[97m--- {jogador.upper()} VS {inimigo.upper()} ---\033[0m")
-	
-	while vida_inimigo > 0:
-		print(f"-- Rodada {rodada} --")
-		print(f"Vida {inimigo}:{vida_inimigo}\n")
-		time.sleep(1)
-		
-		#inimigo
-		ataque = random.choice(["s", "n", "s"])
-		if ataque == "s":
-			defesa_atual = defesa + defesa_armadura
-			dano_inimigo_atual = random.choice(dano_inimigo)
-			vida -= dano_inimigo_atual
-			limitar_status()
-			
-			print(f"{inimigo} te acertou\n Você perdeu {dano_inimigo_atual} de vida . ({vida}/{vida_max})\n")
-			
-			#se jogador morrer
-		if vida <= 0:
-			return
-			
-		else:
-			print(f"Inimigo errou!\n")
-			
-		time.sleep(2)
-		
-		#jogador	
-		ataque = random.choice(["s", "n", "s", "s"])
-		if ataque == "s":
-			dano_atual = dano + dano_arma
-			vida_inimigo -= dano_atual
-			print(f"Você causou {dano_atual} de dano em {inimigo}\n")
-		else:
-			print(f"Você errou!\n")
-		time.sleep(0.5)
-		rodada += 1
-	print(f"{jogador} derrotou {inimigo}.")
-	time.sleep(1)
-	
-	ganhar_xp(qtd_xp)
-	
-	energia -= 20
-	limitar_status()
-	print(f"Batalha encerada. {N_LARANJA}-20 energia{RESET}")
+        global vida, vida_perdida,  jogador, rodada, energia, defesa_armadura, dano_arma, batalhas
 
-	#
+        print(f"\033[100m\033[97m--- {jogador.upper()} VS {inimigo.upper()} ---\033[0m")
+
+        while vida_inimigo > 0:
+                print(f"-- Rodada {rodada} --")
+                print(f"Vida {inimigo}:{vida_inimigo}\n")
+                time.sleep(1)
+
+                #inimigo
+                ataque = random.choice(["s", "n", "s"])
+                if ataque == "s":
+                        defesa_atual = defesa + defesa_armadura
+                        dano_inimigo_atual = random.choice(dano_inimigo)
+                        vida -= dano_inimigo_atual
+                        limitar_status()
+
+                        print(f"{inimigo} te acertou\n Você perdeu {dano_inimigo_atual} de vida . ({vida}/{vida_max})\n")
+
+                        #se jogador morrer
+                if vida <= 0:
+                        return
+
+                else:
+                        print(f"Inimigo errou!\n")
+
+                time.sleep(2)
+
+                #jogador        
+                ataque = random.choice(["s", "n", "s", "s"])
+                if ataque == "s":
+                        dano_atual = dano + dano_arma
+                        vida_inimigo -= dano_atual
+                        print(f"Você causou {dano_atual} de dano em {inimigo}\n")
+                else:
+                        print(f"Você errou!\n")
+                time.sleep(0.5)
+                rodada += 1
+        print(f"{jogador} derrotou {inimigo}.")
+        time.sleep(1)
+
+        ganhar_xp(qtd_xp)
+
+        energia -= 20
+        limitar_status()
+        print(f"Batalha encerada. {N_LARANJA}-20 energia{RESET}")
+        batalhas += 1
+
+        #
 
 def ganhar_xp(q_xp):
-	global xp, level, dano, defesa, vida_max, vida, energia_max, energia, rank, nivel_inv
-	print(f"\nVocê ganhou {N_AMARELO}{q_xp} XP{RESET}")
-	xp = q_xp + xp + bonus_xp
-	while xp >= 10:
-		level += 1
-		xp -= 10
-		
-		dano += 1
-		defesa += 1
-		vida_max += 1
-		vida += 1
-		energia_max += 5
-		energia += 5	
-		
-		if level % 5 == 0:
-			nivel_inv += 1	
-		
-		limitar_status()
-		verificar_level()
+        global xp, level, dano, defesa, vida_max, vida, energia_max, energia, rank, nivel_inv
+        print(f"\nVocê ganhou {N_AMARELO}{q_xp} XP{RESET}")
+        xp = q_xp + xp + bonus_xp
+        while xp >= 10:
+                level += 1
+                xp -= 10
 
-		print(f"\n{N_VERDE}Você subiu de Nivel! (atributos melhorados) {RESET}")
-			
+                dano += 1
+                defesa += 1
+                vida_max += 1
+                vida += 1
+                energia_max += 5
+                energia += 5        
+
+                if level % 5 == 0:
+                        nivel_inv += 1        
+
+                limitar_status()
+                verificar_level()
+
+                print(f"\n{N_VERDE}Você subiu de Nivel! (atributos melhorados) {RESET}")
+
 def verificar_level():
     global level, rank_cor, rank_texto       
-    
+
     if level < 5:
         rank_cor = N_VERDE
         rank_texto = "Iniciante"
@@ -633,134 +636,134 @@ def verificar_level():
 
 
 def limitar_status():
-	global vida, energia
-	if vida > vida_max:
-		vida = vida_max
-	if energia > energia_max:
-		energia = energia_max
-	if energia <= 20:
-		vida -= 10
-		print("Você esta super cansado e com fome! (-10 vida)")
-	if energia <= 0:
-		vida = 0
-		print("Você morreu da ataque cardiaco!")
-		
+        global vida, energia
+        if vida > vida_max:
+                vida = vida_max
+        if energia > energia_max:
+                energia = energia_max
+        if energia <= 20:
+                vida -= 10
+                print("Você esta super cansado e com fome! (-10 vida)")
+        if energia <= 0:
+                vida = 0
+                print("Você morreu da ataque cardiaco!")
+
 #
 def inventario_menu():
-	exibir_mochila()
-	
-	while True:
-		#
-		acao = input("""
-		1 - Criar/Ver lista de criações
-		2 - Usar Item
-		3 - Jogar item fora
-		4 - sair
-		: """)
-	
-	#
-		if acao == "1":
-			criar()
-		if acao == "2":
-			usar_item()
-		if acao == "3":
-			tirar_item()
-		if acao == "4":
-			break
+        exibir_mochila()
+
+        while True:
+                #
+                acao = input("""
+                1 - Criar/Ver lista de criações
+                2 - Usar Item
+                3 - Jogar item fora
+                4 - sair
+                : """)
+
+        #
+                if acao == "1":
+                        criar()
+                if acao == "2":
+                        usar_item()
+                if acao == "3":
+                        tirar_item()
+                if acao == "4":
+                        break
 
 def usar_item():
-	global armadura_atual, arma_atual, vida, defesa, energia, dano, dano_arma, defesa_armadura
-	lista_nomes = list(inventario.keys())
-	
-	if not lista_nomes:
-		print("Seu inventario esta vazio!")
-		return
-	
-	escolha = int(input("Numero do item: "))	
-	i = escolha - 1
-	
-	if i < 0 or i > len(lista_nomes) - 1:
-		print("\n*Item inexistente*")
-		return
-	
-	nome_item = lista_nomes[i]
-	dados_item = inventario[nome_item]
-	
-	if dados_item["tipo"] == "arma":
-		arma_atual = nome_item
-		dano_arma = dados_item["dano"]
-		print(f"{C_VERDE}Você equipou {nome_item} (+{dano_arma} dano){RESET}")
-		
-	if dados_item["tipo"] == "cura":
-		vida += dados_item['cura']
-		print(f"{C_VERDE}Você usou {nome_item} (+{dados_item['cura']} vida)({vida}/{vida_max}){RESET}")
-		
-	if dados_item["tipo"] == "armadura":
-		armadura_atual = nome_item
-		defesa_armadura = dados_item['defesa']
-		print(f"{C_VERDE}Você equipou {nome_item} (+ {defesa_armadura} defesa){RESET}")
-		
-	if dados_item["tipo"] == "comida":
-		energia += dados_item['energia']
-		print(f"{C_VERDE}Você comeu {nome_item} (+{dados_item['energia']} energia)({energia}/{energia_max}){RESET}")
-		
-	if dados_item["tipo"] == "material":
-			print("Você não pode usar/equipar um material")
-			return
-		
-	inventario[nome_item]['quantidade'] -= 1
-	if inventario[nome_item]['quantidade'] == 0:
-		del inventario[nome_item]
-	print(f"1 {nome_item} foi tirado do inventario")
-	exibir_mochila()	
-	limitar_status()
-	
-	
+        global armadura_atual, arma_atual, vida, defesa, energia, dano, dano_arma, defesa_armadura
+        lista_nomes = list(inventario.keys())
+
+        if not lista_nomes:
+                print("Seu inventario esta vazio!")
+                return
+
+        escolha = int(input("Numero do item: "))        
+        i = escolha - 1
+
+        if i < 0 or i > len(lista_nomes) - 1:
+                print("\n*Item inexistente*")
+                return
+
+        nome_item = lista_nomes[i]
+        dados_item = inventario[nome_item]
+
+        if dados_item["tipo"] == "arma":
+                arma_atual = nome_item
+                dano_arma = dados_item["dano"]
+                print(f"{C_VERDE}Você equipou {nome_item} (+{dano_arma} dano){RESET}")
+
+        if dados_item["tipo"] == "cura":
+                vida += dados_item['cura']
+                print(f"{C_VERDE}Você usou {nome_item} (+{dados_item['cura']} vida)({vida}/{vida_max}){RESET}")
+
+        if dados_item["tipo"] == "armadura":
+                armadura_atual = nome_item
+                defesa_armadura = dados_item['defesa']
+                print(f"{C_VERDE}Você equipou {nome_item} (+ {defesa_armadura} defesa){RESET}")
+
+        if dados_item["tipo"] == "comida":
+                energia += dados_item['energia']
+                print(f"{C_VERDE}Você comeu {nome_item} (+{dados_item['energia']} energia)({energia}/{energia_max}){RESET}")
+
+        if dados_item["tipo"] == "material":
+                        print("Você não pode usar/equipar um material")
+                        return
+
+        inventario[nome_item]['quantidade'] -= 1
+        if inventario[nome_item]['quantidade'] == 0:
+                del inventario[nome_item]
+        print(f"1 {nome_item} foi tirado do inventario")
+        exibir_mochila()        
+        limitar_status()
+
+
 def exibir_mochila():
     global qtd_livre
     capacidade = nivel_inv * 2 + 3
     if capacidade > 30:
-	    capacidade = 30
+            capacidade = 30
     n = 1
     qtd = len(inventario.keys())
     qtd_livre = capacidade - qtd
-    
+
     print(f"==== Mochila Nível {nivel_inv} ====\n")
-    
+
     for item in inventario:
         quantidade = inventario[item]["quantidade"]
         tipo = inventario[item]["tipo"]
-        
+
         print(f"| Item {n}: {item} | Qtd: {quantidade} | Tipo: {tipo}")
         n += 1
-    
+
     print("| item * | **** | **** | **** | **** |\n" * qtd_livre)
     print(f"==== Capacidade ({qtd}/{capacidade})====")
 
 
 def tirar_item():
-	lista_nomes = list(inventario.keys())
-	
-	if not lista_nomes:
-		print("Seu inventario esta vazio!")
-		return
-	
-	escolha = int(input("Numero do item: "))	
-	i = escolha - 1
-	
-	if i < 0 or i > len(lista_nomes) - 1:
-		print("\n*Item inexistente*")
-		return
-	
-	nome_item = lista_nomes[i]
-	del inventario[nome_item]
-	
-	print(f"{N_VERMELHO}{nome_item} desapareceu do inventario. {RESET}")
-	
-	exibir_mochila()
+        lista_nomes = list(inventario.keys())
+
+        if not lista_nomes:
+                print("Seu inventario esta vazio!")
+                return
+
+        escolha = int(input("Numero do item: "))        
+        i = escolha - 1
+
+        if i < 0 or i > len(lista_nomes) - 1:
+                print("\n*Item inexistente*")
+                return
+
+        nome_item = lista_nomes[i]
+        del inventario[nome_item]
+
+        print(f"{N_VERMELHO}{nome_item} desapareceu do inventario. {RESET}")
+
+        exibir_mochila()
 
 #
-	
+
 def coletar_recurso(item, quantidade):
     global nivel_inv, capacidade
     exibir_mochila()
@@ -769,15 +772,16 @@ def coletar_recurso(item, quantidade):
         return
 
     escolha = input(f"Você achou {quantidade} {item}! deseja coletar para a mochila?(S/N): ")
-    
+
     if escolha.upper() == "S":
         if item in inventario:
             inventario[item]["quantidade"] += quantidade
         else:
             inventario[item] = banco_de_itens[item].copy()
             inventario[item]['quantidade'] = quantidade
-            
+
         print(f"\nVocê coletou {item}!")
+        exibir_mochila()
 
 def coletar_auto(item, quantidade):
     global nivel_inv, capacidade
@@ -791,143 +795,146 @@ def coletar_auto(item, quantidade):
     else:
         inventario[item] = banco_de_itens[item].copy()
         inventario[item]['quantidade'] = quantidade
-            
+
         print(f"\nVocê coletou {quantidade} {item}!")
+        exibir_mochila()
 
 
 def ver_criacoes():
-	n = 1
-	for item in receitas:
-		materiais = receitas[item]
-		print(f"\n={n}=\n{item} :\n{materiais}")
-		n += 1
+        n = 1
+        for item in receitas:
+                materiais = receitas[item]
+                print(f"\n={n}=\n{item} :\n{materiais}")
+                n += 1
 #
 
 def criar():
-	ver_criacoes()
-	receitas_lista = list(receitas.keys())
-	i = int(input("Qual item você gostaria de criar?\n:")) - 1
-	
-	if i < 0 or i >= len(receitas_lista):
-		print('Receita invalida')
-		return
+        ver_criacoes()
+        receitas_lista = list(receitas.keys())
+        i = int(input("Qual item você gostaria de criar?(0 p/ voltar)\n:")) - 1
 
-	receita = receitas_lista[i]
-	material = receitas[receita]
-	
-	# verificar se tem os recursos necessários
-	faltando = {}
-	for mat, qtd_necessaria in material.items():
-		qtd_atual = inventario.get(mat, {}).get("quantidade", 0)
-		if qtd_atual < qtd_necessaria:
-			faltando[mat] = qtd_necessaria - qtd_atual
+        if i == -1:
+            print("\n")
+            return
+        if i < 0 or i >= len(receitas_lista):
+                print('\nReceita invalida')
+                return
+        
+                
+        receita = receitas_lista[i]
+        material = receitas[receita]
 
-	if faltando:
-		print(f"\n{N_VERMELHO}Você não tem os materiais necessários!{RESET}")
-		for mat, qtd in faltando.items():
-			print(f" - Faltam {qtd}x {mat}")
-		return
+        # verificar se tem os recursos necessários
+        faltando = {}
+        for mat, qtd_necessaria in material.items():
+                qtd_atual = inventario.get(mat, {}).get("quantidade", 0)
+                if qtd_atual < qtd_necessaria:
+                        faltando[mat] = qtd_necessaria - qtd_atual
 
-	# ver do espaco
-	exibir_mochila()
-	if receita not in inventario and qtd_livre == 0:
-		print(f"{N_VERMELHO}Sua mochila está cheia! Não há espaço para {receita}.{RESET}")
-		return
+        if faltando:
+                print(f"\n{N_VERMELHO}Você não tem os materiais necessários!{RESET}")
+                for mat, qtd in faltando.items():
+                        print(f" - Faltam {qtd}x {mat}")
+                return
 
-	# tirar materiais
-	for mat, qtd_necessaria in material.items():
-		inventario[mat]["quantidade"] -= qtd_necessaria
-		if inventario[mat]["quantidade"] == 0:
-			del inventario[mat]
+        # ver do espaco
+        exibir_mochila()
+        if receita not in inventario and qtd_livre == 0:
+                print(f"{N_VERMELHO}Sua mochila está cheia! Não há espaço para {receita}.{RESET}")
+                return
 
-	# adicionar item criado
-	qtd_criada = banco_de_itens[receita]["quantidade"]
-	if receita in inventario:
-		inventario[receita]["quantidade"] += qtd_criada
-	else:
-		inventario[receita] = banco_de_itens[receita].copy()
+        # tirar materiais
+        for mat, qtd_necessaria in material.items():
+                inventario[mat]["quantidade"] -= qtd_necessaria
+                if inventario[mat]["quantidade"] == 0:
+                        del inventario[mat]
 
-	print(f"\n{N_VERDE}Você criou {receita}!{RESET}")
-	
-	exibir_mochila()
+        # adicionar item criado
+        qtd_criada = banco_de_itens[receita]["quantidade"]
+        if receita in inventario:
+                inventario[receita]["quantidade"] += qtd_criada
+        else:
+                inventario[receita] = banco_de_itens[receita].copy()
+
+        print(f"\n{N_VERDE}Você criou {receita}!{RESET}")
+
+        exibir_mochila()
 
 
 def pegar_recursos():
-	acao = input("""
-	==:
-	1 - Coletar itens do chão
-	2 - Quebrar Árvores
-	3 - Mineirar
-	4 - voltar
-	==: """)
+        acao = input("""
+        ==:
+        1 - Coletar itens do chão
+        2 - Quebrar Árvores
+        3 - Mineirar
+        4 - voltar
+        ==: """)
 
-	if acao == "1":
-		coleta()
-	elif acao == "2":
-		coleta_arvores()
-	elif acao == "3":
-		coleta_mina()
-	elif acao =="4":
-		return
-	else:
-		print("Acão inexistente...")
-		return
+        if acao == "1":
+                coleta()
+        elif acao == "2":
+                coleta_arvores()
+        elif acao == "3":
+                coleta_mina()
+        elif acao =="4":
+                return
+        else:
+                print("Acão inexistente...")
+                return
 
 #
 def coleta():
-	global energia
-	item1 = random.choice(["Pedra", "Sipó", "Graveto", "Pano", "Cogumelo Amanita muscaria", "Cogumelo Champignon"])
-	item2 = random.choice(["Madeira", "Pedra", "Sipó", "Graveto", "Pano", "Cogumelo Amanita muscaria", "Cogumelo Champignon"])
-	qtd1 = random.randint(1, 5)
-	qtd2 = random.randint(1, 5)
+        global energia
+        item1 = random.choice(["Pedra", "Sipó", "Graveto", "Pano", "Cogumelo Amanita muscaria", "Cogumelo Champignon"])
+        item2 = random.choice(["Madeira", "Pedra", "Sipó", "Graveto", "Pano", "Cogumelo Amanita muscaria", "Cogumelo Champignon"])
+        qtd1 = random.randint(1, 5)
+        qtd2 = random.randint(1, 5)
 
-	if random.randint(1, 6) == 6:
-		print("Vc não achou nada")
-	else:
-		coletar_auto(item1, qtd1)
-		coletar_auto(item2, qtd2)
+        if random.randint(1, 6) == 6:
+                print("\nVc não achou nada")
+        else:
+                coletar_auto(item1, qtd1)
+                coletar_auto(item2, qtd2)
 
-	print(f"\nVocê achou {qtd1} {item1} e {qtd2} {item2}\n")
-	energia -= 15
-	print(f"Voce gastou {N_LARANJA}15 energia{RESET}({energia}/{energia_max})")
-	limitar_status()
+                print(f"\nVocê achou {qtd1} {item1} e {qtd2} {item2}\n")
+        energia -= 15
 
+        print(f"Voce gastou {N_LARANJA}15 energia{RESET}({energia}/{energia_max})")
+        limitar_status()
 #
 def coleta_arvores():
-	global defesa_atual
-
-	vida_arvore = random.randint(60, 180)
-	qtd_madeiras = random.randint(10, 20)
-
-	defesa_atual = defesa + defesa_armadura
-	combate("Árvore", vida_arvore, [0, 0, 1, 2, 3])
-	coletar_auto("Madeira", qtd_madeiras)
+        vida_arvore = random.randint(60, 180)
+        qtd_madeiras = random.randint(10, 20)
+        
+        combate("Árvore", vida_arvore, [0, 1, 2])
+        coletar_auto("Madeira", qtd_madeiras)
 #
 def coleta_mina():
-	global energia
-	qtd_pedra = random.randint(5, 12)
+        global energia
+        qtd_pedra = random.randint(5, 12)
 
-	if random.randint(1, 4) == 4:
-		print("Vc não achou nada")
-	else:
-		item = random.choice(["Ferro", "Diamante", "Obsidiana"])
-		qtd = random.randint(1, 5)
+        if random.randint(1, 4) == 4:
+                print("Vc não achou nada")
+        else:
+                item = random.choice(["Ferro", "Diamante", "Obsidiana"])
+                qtd = random.randint(1, 5)
 
-		coletar_auto(item, qtd)
+                coletar_auto(item, qtd)
+                coletar_auto("Pedra", qtd_pedra)
 
-	energia -= 20
-	print(f"Voce gastou {N_LARANJA}20 energia{RESET}({energia}/{energia_max})")
-	limitar_status()
+        energia -= 20
+        print(f"Voce gastou {N_LARANJA}20 energia{RESET}({energia}/{energia_max})")
+        limitar_status()
 
 # inicio
-print(f"{F_BRANCO}{C_PRETO} ==_Barriga Overpower_== {RESET}")
-input("Pressione enter para jogar\n")
+print(f"{F_BRANCO}{C_PRETO} ==BARRIGA OVERPOWER==\n\torigens{RESET}")
+input("\nPressione enter para jogar\n")
 
 # historia
 ver_historia = input("Deseja ver a História inicial? (S/N): ")
 
 if ver_historia.lower() == "s":
-    historia()	
+    historia()        
 
 # jogo
 cadastro()
@@ -937,4 +944,5 @@ while vida > 0:
 print(f"\n{F_VERMELHO}{C_BRANCO} === Fim de Jogo === {RESET}\n")
 print("Atributos conquistados:\n")
 ver_ficha()
+print("batalhas: ", batalhas)
 
