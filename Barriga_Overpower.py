@@ -26,6 +26,12 @@ batalhas = 0
 nivel_inv = 1
 qtd_livre = 0
 inventario = {}
+#
+locais = ["vila", "floresta", "montanha", "rio"]
+local_antigo = ""
+local = "vila"
+#eventos_v = 
+eventos_f = []
 
 banco_de_itens = {
 "Espada de Madeira": {"tipo": "arma", "quantidade": 1, "dano": 5},
@@ -365,6 +371,9 @@ def historia():
     print("Aonde estou? Eu só virei a esquina")
     time.sleep(1.2)
 
+    print("...")
+    time.sleep(1.4)
+
     print("EU ESTOU NUM ISEKAI DE ANIME!")
     time.sleep(1.4)
 
@@ -374,13 +383,13 @@ def historia():
     print("\n??? - Mãe, olha aquele gordinho esquisito gritando.")
     time.sleep(1.6)
 
-    print("??? - Por isso você tem que parar de comer bolachinha recheada, pra nao ficar igual...")
+    print("??? - Por isso você tem que parar de comer bolachinha recheada, pra nao ficar igual...\n")
     time.sleep(1.6)
 
     print("Essas pessoas não entendem minha AURA!")
     time.sleep(1.2)
 
-    print("\n???? - Cala a boca mr. Obesity!")
+    print("\nHomem misterioso - Cala a boca mr. Obesity!\n")
     time.sleep(1.2)
 
     print("!")
@@ -392,33 +401,33 @@ def historia():
     print("\nHomem misterioso - É o seguinte, aparentemente chamei a pessoa errada para cá..")
     time.sleep(2)
 
-    print("mas eu não quero mais desconto do vale picanha\n então dá teus pulos.")
+    print("mas eu não quero mais desconto do vale picanha\nentão dá teus pulos.\n")
     time.sleep(2)
 
-    print("vale de gue?")
+    print("vale de gue?\n")
     time.sleep(1.6)
 
-    print("Homem misterioso - talvez pedindo dinheiro na rua você nao morra.")
+    print("Homem misterioso - talvez pedindo dinheiro na rua você nao morra.\n")
     time.sleep(2)
 
     print("Ma...")
     time.sleep(1.6)
 
-    print("\n(Homem misterioso desaparece)")
+    print("\n(Homem misterioso desaparece)\n")
     time.sleep(1.5)
 
     print("O que um protagonista como eu faria?")
     time.sleep(1.5)
     
-    print("Já sei! Vou ir à guilda de aventureiros!")
+    print("Já sei! Vou ir à guilda de aventureiros!\n")
     time.sleep(1.5)
 
-    input("\nEnter para continuar...")
+    input("E assim começa sua aventura gulosa..\nEnter para continuar...")
 
     print("\nExplore a floresta e colete recursos e armas maneiras.")
     time.sleep(1.6)
 
-    print("Aumente seu nivel enquanto tenta nao morrer..")
+    print("Aumente seu nivel enquanto tenta nao morrer.")
     time.sleep(1.6)
 
     print("(Você chegou a guilda de aventureiros para iniciantes da cidade)")
@@ -448,17 +457,97 @@ def acoes():
 #                                                        
 
 def explorar():
-                acontece = random.randint(1, 5)
-                if acontece == 1:
-                        lobo()
-                if acontece == 2:
-                        goblin()
-                if acontece == 3:
-                        macieira()
-                if acontece == 4:
-                        lenhador()
-                #if acontece == 5:
-                    #
+        global local
+        while True:
+                esc = input(f"\n{C_ROXO}Você está em {local}.{RESET}\n O que devo fazer?\n1 - explorar a área\n2 - explorar outro local\n3 - desistir de explorar: ")
+
+                if esc == "1":
+                        if local == "vila":
+                                explorar_vila()
+                        elif local == "floresta":
+                                explorar_floresta()
+                        elif local == "rio":
+                                explorar_rio()
+                        elif local == "montanha":
+                                explorar_montanha()
+
+                elif esc == "2":
+                        while True:
+                                esc = input("\nPara onde devo ir?\n 1 - vila (lv. min:0)\n2 - floresta (lv. min:3)\n3 - rio (lv. min:8)\n4 - montanha (lv. min:12)")
+                                if esc == "1":  
+                                        local_antigo = local
+                                        local = "vila"
+                                        if local == local_antigo:
+                                                print(f"Você ja está em {C_ROXO}{local}...{RESET}")
+                                                break
+                                        else:
+                                                print(f"Você chegou a {C_ROXO}{local}{RESET}!")
+                                elif esc == "2":
+                                        if level < 3:
+                                                print("Você desistiu de ir por medo...")
+                                                break
+                                        local_antigo = local
+                                        local = "floresta"
+                                        if local == local_antigo:
+                                                print(f"Você ja está em {C_ROXO}{local}...{RESET}")
+                                                break
+                                        else:
+                                                print(f"Você chegou a {C_ROXO}{local}{RESET}!")
+                                elif esc == "3":
+                                        if level < 8:
+                                                print("Você desistiu de ir por medo...")
+                                                break
+                                        local_antigo = local
+                                        local = "rio"
+                                        if local == local_antigo:
+                                                print(f"Você ja está em {C_ROXO}{local}...{RESET}")
+                                                break
+                                        else:
+                                                print(f"Você chegou a {C_ROXO}{local}{RESET}!")
+                                elif esc == "4":
+                                        if level < 12:
+                                                print("Você desistiu de ir por medo...")
+                                                break
+                                        local_antigo = local
+                                        local = "montanha"
+                                        if local == local_antigo:
+                                                print(f"Você ja está em {C_ROXO}{local}...{RESET}")
+                                                break
+                                        else:
+                                                print(f"Você chegou a {C_ROXO}{local}{RESET}!")
+                                else:
+                                        print("escolha inexistente")
+
+                elif esc == "3":
+                        break
+                                        
+                else:
+                        print("escolha inexistente")
+
+#def explorar_vila():
+
+
+def explorar_floresta():
+        n = random.randint(1, 5)
+        if n == 1:
+                lobo()
+        elif n == 2:
+                goblin()
+        elif n == 3:
+                lenhador()
+        elif n == 4:
+                macieira()
+        elif n == 5:
+                javali()
+
+
+##def explorar_rio():
+
+
+
+#def explorar_montanha():
+
+
 
 
 ### 1
@@ -532,7 +621,28 @@ def lenhador():
         else:
                 print("ok... até mais!")
 
-#
+### 5
+def javali():
+        global energia
+        print("Você avista de longe um javali grande e gordo aparentemente perdido...")
+        time.sleep(1)
+        while True:
+                esc = input("O que devo fazer?\n1 - atacar\n2 - ignorar\n: ")
+                if esc == "1":
+                        print("Você se aproxima e tenta atacar.")
+                        combate("Javali", 28, range(15, 25), 15)
+                        if vida > 0:
+                                coletar_recurso("Carne Gorda", 4)
+                        break
+                elif esc == "2":
+                        energia -= 6
+                        limitar_status
+                        print(f"Você se afastou sem ser percebido\nvocê perdeu {N_LARANJA}6 energia{RESET} pela caminhada{N_LARANJA}({energia}/{energia_max}){RESET}")
+                        break
+                else:
+                        print("Escolha inválida...")
+
+
 def ver_ficha():
     print(f"\n ======== Ficha De Aventureiro ==========\n | Nome: {jogador} | Classe: {classe} | Biotipo: {biotipo} |\n | {N_AZUL}dano: {dano}{RESET} | {N_AZUL}defesa: {defesa}{RESET} | {N_VERMELHO}Vida: {vida}/{vida_max}{RESET} | {N_LARANJA}Energia: {energia}/{energia_max}{RESET} |\n | {rank_cor}Level: {level}({rank_texto}){RESET} | {N_AMARELO}XP: {xp}/10{RESET} | {N_AMARELO}Bônus XP: {bonus_xp}{RESET} | \n | Arma: {arma_atual} (+{dano_arma} dano) | Armadura: {armadura_atual} (+{defesa_armadura} defesa)\n ========================================")
     time.sleep(2)
