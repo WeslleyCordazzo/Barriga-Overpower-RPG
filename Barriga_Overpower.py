@@ -30,7 +30,6 @@ inventario = {}
 locais = ["vila", "floresta", "montanha", "rio"]
 local_antigo = ""
 local = "vila"
-#eventos_v = 
 eventos_f = []
 
 banco_de_itens = {
@@ -169,10 +168,10 @@ receitas = {
     },
 
         "Armadura de Obsidiana": {
-                        "Obsidiana": 8,
-                        "Diamante": 4,
-                        "Ferro": 4,
-                        "Pano": 2
+                "Obsidiana": 8,
+                "Diamante": 4,
+                "Ferro": 4,
+                "Pano": 2
                 },
 
         #comidas
@@ -253,15 +252,20 @@ def cadastro():
         global jogador, biotipo, vida, energia, vida_max, energia_max, dano, defesa, classe, bonus_xp
 
         jogador = input("\nBoas Vindas novo aventureiro! Gostaria de se registrar?\nPrimeiro, Como você gostaria de ser chamado?\n:")
-
-        n_classe = int(input("""Qual é a sua classe?
-       =============================
-        | 1 - Guerreiro        | (maior dano)               
-        | 2 - Tanque           | (maior defesa)            
-        | 3 - Sábio         | (maior ganho de xp)  
-        | 4 - Atleta    | (maior energia)
-       ==============================
-       :"""))
+        while True:
+                try:
+                        n_classe = int(input("""Qual é a sua classe?
+                        =============================
+                        | 1 - Guerreiro     | (maior dano)               
+                        | 2 - Tanque        | (maior defesa)            
+                        | 3 - Sábio         | (maior ganho de xp)  
+                        | 4 - Atleta        | (maior energia)
+                        ==============================
+                :"""))
+                
+                        break
+                except ValueError:
+                        print("Comando inexistente...\n")
 
         #modo admin de teste
         if jogador == "weslley safadao" and n_classe == 1:
@@ -435,41 +439,50 @@ def historia():
 
 #funcoes do jogo
 def acoes():
-        acao = int(input("""
-        
-        - O que devo fazer agora?
-        =
-        | 1 - Explorar a floresta  ===========|
-        | 2 - Inventário/Criar item  =========|
-        | 3 - Checar Ficha  ==================|
-        | 4 - Pegar recursos  ================| 
-        =  
-        :"""))
+        try:
+                acao = int(input("""
+                
+                - O que devo fazer agora?
+                =
+                | 1 - Explorar a floresta  ===========|
+                | 2 - Inventário/Criar item  =========|
+                | 3 - Checar Ficha  ==================|
+                | 4 - Pegar recursos  ================| 
+                =  
+                :"""))
 
-        if acao == 1:
-                explorar()
-        elif acao == 2:
-                inventario_menu()
-        if acao == 3:
-                ver_ficha()
-        if acao == 4:
-                pegar_recursos()
+                if acao == 1:
+                        explorar()
+                elif acao == 2:
+                        inventario_menu()
+                if acao == 3:
+                        ver_ficha()
+                if acao == 4:
+                        pegar_recursos()
+        except ValueError:
+                print("Comando inexistente...\n")
 #                                                        
 
 def explorar():
         global local
         while True:
-                esc = input(f"\n{C_ROXO}Você está em {local}.{RESET}\n O que devo fazer?\n1 - explorar a área\n2 - explorar outro local\n3 - desistir de explorar: ")
+                esc = input(f"\n{C_ROXO}Você está em {local}.{RESET}\n O que devo fazer?\n1 - explorar a área\n2 - explorar outro local\n3 - desistir de explorar\n: ")
 
                 if esc == "1":
                         if local == "vila":
                                 explorar_vila()
+                                break
                         elif local == "floresta":
                                 explorar_floresta()
+                                break
                         elif local == "rio":
                                 explorar_rio()
+                                break
                         elif local == "montanha":
                                 explorar_montanha()
+                                break
+                        else:
+                                print("escolha inexistente...\n")
 
                 elif esc == "2":
                         while True:
@@ -482,6 +495,7 @@ def explorar():
                                                 break
                                         else:
                                                 print(f"Você chegou a {C_ROXO}{local}{RESET}!")
+                                                break
                                 elif esc == "2":
                                         if level < 3:
                                                 print("Você desistiu de ir por medo...")
@@ -493,6 +507,7 @@ def explorar():
                                                 break
                                         else:
                                                 print(f"Você chegou a {C_ROXO}{local}{RESET}!")
+                                                break
                                 elif esc == "3":
                                         if level < 8:
                                                 print("Você desistiu de ir por medo...")
@@ -504,6 +519,7 @@ def explorar():
                                                 break
                                         else:
                                                 print(f"Você chegou a {C_ROXO}{local}{RESET}!")
+                                                break
                                 elif esc == "4":
                                         if level < 12:
                                                 print("Você desistiu de ir por medo...")
@@ -515,17 +531,31 @@ def explorar():
                                                 break
                                         else:
                                                 print(f"Você chegou a {C_ROXO}{local}{RESET}!")
+                                                break
                                 else:
                                         print("escolha inexistente")
+                        
+                        energia -= 15
+                        print(f"Você perdeu 15 energia andando...{energia}/{energia_max}")
 
                 elif esc == "3":
                         break
                                         
                 else:
-                        print("escolha inexistente")
+                        print("escolha inexistente...\n")
 
-#def explorar_vila():
+def explorar_vila():
+        n = random.randint(1, 2)
+        if n == 1:
+                ladrao()
+        elif n == 2:
+                senhora()
+        #elif n == 3:
 
+        ##elif n == 4:
+           
+        #elif n == 5:
+           
 
 def explorar_floresta():
         n = random.randint(1, 5)
@@ -541,16 +571,85 @@ def explorar_floresta():
                 javali()
 
 
-##def explorar_rio():
+def explorar_rio():
+        n = random.randint(1, 2)
+        if n == 1:
+                slime()
+        elif n == 2:
+                troca()
+        #elif n == 3:
+
+        ##elif n == 4:
+           
+        #elif n == 5:
 
 
+def explorar_montanha():
+        n = 1#random.randint(1, 5)
+        if n == 1:
+            golem()
+        #elif n == 2:
+   
+        #elif n == 3:
 
-#def explorar_montanha():
+        ##elif n == 4:
+           
+        #elif n == 5:
 
 
+#eventos vila
+def ladrao():
+        lista = list(inventario.keys())
+        if len(lista) > 0:
+                item = lista[1]
 
+                print(f"Passando por um caminho da vila, de repente um aruaceiro te ameaça por {item} de seu inventario.")
+                time.sleep(1)
+                while True:
+                        esc = input(f"O que fazer?\n1 - lutar\n2 - entregar todos {item} do inventario\n: ")
+                        if esc == "1":
+                                combate("Ladrão", 25, range(12, 17), 7)
+                                if vida > 0:
+                                        coletar_recurso("Espada de Pedra", 1)
+                                        coletar_recurso("Poção de Cura", 2)
+                                break
+                        if esc == "2":
+                                del inventario[item]
+                                print(f"{N_VERMELHO}Ladrão saiu com seu {item}...{RESET}")
+                                time.sleep(1)
+                                break
+                        else:
+                                print("Escolha inexistente...\n")
 
-### 1
+        else:
+                print("Passando por um caminho da vila, de repente um aruaceiro tenta te roubar, mas vendo sua pobreza, ele ri e te oferece ajuda.")
+                coletar_recurso("Diamante", 2)
+#
+def senhora():
+        global energia
+        print("Enquanto andava pela vila...\n")
+        time.sleep(0.6)
+        esc = input("Idosa - Olá meu fi, poderia me ajudar a procurar meu gatinho?\njusto agora que eu ia castrar ele...\n\nO que fazer?\n1 - Ajudar\n2 - Deixar a dignidade do gato\n:")
+        while True:
+                if esc == "1":
+                        if random.randint(1, 3) != 3:
+                                print("..")
+                                time.sleep(2)
+                                print("Você achou o gato e o devolveu para a senhora")
+                                print("\nSenhora - Muito obrigada garotinho, tome isso como recompensa.")
+                                coletar_recurso("Maça", random.randint(2, 5))
+                                coletar_recurso("Pano", random.randint(2, 5))
+                                energia -= 6
+                                print(f"Você perdeu 6 energia{energia}/{energia_max}")
+                                break
+                elif esc == "2":
+                        print("Você deu um migue e fugiu...")
+                        energia -= 6
+                        print(f"Você perdeu 6 energia{energia}/{energia_max}")
+                        break
+                else:
+                        print("Escolha inválida...")
+### eventos floresta
 def lobo():
                 time.sleep(1)
                 print("Em sua caminhada, um lobo solitário surge da mata e tenta te atacar\n ")
@@ -559,7 +658,6 @@ def lobo():
                 if vida > 0:
                         coletar_recurso("Carne Magra", 3)
 
-### 2
 def goblin():
         lista = list(inventario.keys())
         if len(lista) > 0:
@@ -584,7 +682,6 @@ def goblin():
                 exibir_mochila()
                 print(f"O goblin morreu... mas {item} dessapareceu! para onde foi?")
 
-### 3
 def macieira():
         tamanho = random.choice(["pequena", "media", "grande"])
         if tamanho == "pequena":
@@ -597,7 +694,6 @@ def macieira():
         print(f"Voce achou uma macieira {tamanho}")
         coletar_recurso("Maça", macas)
 
-### 4
 def lenhador():
         print("Você acaba encontrando um lenhador cortando arvores perto de uma cabana...")
         time.sleep(0.7)
@@ -621,7 +717,6 @@ def lenhador():
         else:
                 print("ok... até mais!")
 
-### 5
 def javali():
         global energia
         print("Você avista de longe um javali grande e gordo aparentemente perdido...")
@@ -643,6 +738,92 @@ def javali():
                         print("Escolha inválida...")
 
 
+#eventos rio
+def slime():
+        print("Enquanto você caminhava perto do rio, um slime normal bem aguado se aproxima..")
+        combate("Slime", 5, range(10, 15), 2)
+        time.sleep(1)
+        print("Espera.. há mais um levemente maior deles..")
+        combate("Slime", 10, range(12, 17), 2)
+        time.sleep(1.5)
+        print("Na verdade tem MUITOS deles!!")
+        combate("Montanha Pegajosa", 50, range(24, 28), 15)
+        if vida > 0:
+                coletar_recurso("Poção de Cura pequena", 3)
+
+
+def troca():
+        global energia, energia_max, vida, vida_max, dano, defesa
+        print("Ao caminhar perto ao rio, você acaba escutando uma voz estranha vindo de mais a frente.")
+        time.sleep(1)
+        while True:
+                esc = input("O que devo fazer?\n1 - Seguir a voz\n2 - ignorar\n:")
+                if esc == "1":
+                        print("Você avança e vê um gogumelo falante cantando algo...")
+                        time.sleep(1)
+                        esc = input(f"Gogumelo - Todo {classe} tem um principio acertivo para seguir como base, tal será usada em prol de sua alma em cada batalha, mesmo pessoas com dignidade fraca como você.\nqual a sua se tornará?\n1 - Minha vitalidade.\n2 - Meu combustivel.\n3 - Minha luxuria.\n: ")
+                        if esc == "1":
+                                vida_max += 5
+                                vida += 5
+                                energia_max -=5
+                                energia -= 5
+                                dano -=2
+                                defesa +=2
+                                print("seu corpo ascende ao céu...")
+                        elif esc == "2":
+                                vida_max -= 5
+                                vida -= 5
+                                energia_max +=5
+                                energia += 5
+                                dano +=2
+                                defesa -=2
+                                print("seu corpo ascende a terra...")
+                        elif esc == "3":
+                                vida_max -= 5
+                                vida -= 5
+                                energia_max -=5
+                                energia -= 5
+                                dano -=2
+                                defesa -=2
+                                print("você sonha com prazeres...")
+
+                        time.sleep(0.5)
+                        print("Você desmaiou...")
+                        time.sleep(3)
+                        print("\nVocê acordou se sentindo diferente. O que será?")
+                        energia -= 8
+                        print(f"\n você perdeu {N_LARANJA}8 energia{RESET}\n{energia}/{energia_max}")
+
+                if esc == "2":
+                        print("Você desvia para longe...")
+                        energia -= 8
+                        print(f"\n você perdeu {N_LARANJA}8 energia{RESET}\n{energia}/{energia_max}")
+
+
+#eventos montanha
+def golem():
+        print("Ao andar pelas rochas monte acima, de repente, algumas rochas se juntam e formam um golem enorme.\nele nâo parece estar muito contente em te ver...\n")
+        while True:
+                esc = input("O que fazer?\n1 - lutar\n2 - Oferecer pedras para o acalmar")
+                if esc == "1":
+                        combate("Golem", 100, range(20, 40), 50)
+                        if vida > 0:
+                                coletar_recurso("Pedra", 40)
+                                coletar_recurso("Ferro", 10)
+                                coletar_recurso("Obsidiana", 3)
+                        break
+                elif esc == "2":
+                        if "Pedra" in inventario:
+                                del inventario["Pedra"]
+                                print("Golem apenas esmagou suas pedras...")
+                        else:
+                                print("Você nem pedras tinha...")
+                        combate("Golem", 100, range(20, 40), 50)
+                        if vida > 0:
+                                coletar_recurso("Pedra", 40)
+                                coletar_recurso("Ferro", 10)
+                                coletar_recurso("Obsidiana", 3)  
+#                              
 def ver_ficha():
     print(f"\n ======== Ficha De Aventureiro ==========\n | Nome: {jogador} | Classe: {classe} | Biotipo: {biotipo} |\n | {N_AZUL}dano: {dano}{RESET} | {N_AZUL}defesa: {defesa}{RESET} | {N_VERMELHO}Vida: {vida}/{vida_max}{RESET} | {N_LARANJA}Energia: {energia}/{energia_max}{RESET} |\n | {rank_cor}Level: {level}({rank_texto}){RESET} | {N_AMARELO}XP: {xp}/10{RESET} | {N_AMARELO}Bônus XP: {bonus_xp}{RESET} | \n | Arma: {arma_atual} (+{dano_arma} dano) | Armadura: {armadura_atual} (+{defesa_armadura} defesa)\n ========================================")
     time.sleep(2)
@@ -662,7 +843,9 @@ def combate(inimigo, vida_inimigo, dano_inimigo, qtd_xp):
                 ataque = random.choice(["s", "n", "s"])
                 if ataque == "s":
                         defesa_atual = defesa + defesa_armadura
-                        dano_inimigo_atual = random.choice(dano_inimigo)
+                        dano_inimigo_atual = random.choice(dano_inimigo) - defesa_atual
+                        if dano_inimigo_atual < 0:
+                                dano_inimigo_atual = 0
                         vida -= dano_inimigo_atual
                         limitar_status()
 
