@@ -13,10 +13,14 @@ xp = 0
 #
 rodada = 1
 #
-arma_atual = "Nenhuma"
-armadura_atual = "Nenhuma"
+arma_atual = "nenhuma"
+armadura_atual = "nenhuma"
+equipamento_atual = "nenhuma"
 dano_arma = 0
 defesa_armadura = 0
+dano_equipamento = 0
+defesa_equipamento = 0
+
 #
 biotipos = ["Robusto", "Ágil", "Resistente", "Intelectual"]
 biotipo = ""
@@ -46,15 +50,22 @@ banco_de_itens = {
 "Adaga" : {"tipo": "arma", "quantidade": 1, "dano": 6},
 
 
-"Escudo de Madeira Pequeno": {"tipo": "armadura", "quantidade": 1, "defesa": 2},
+"Escudo de Madeira": {"tipo": "equipamento", "quantidade": 1, "defesa": 2},
 
-"Escudo de Aluminio grande": {"tipo": "armadura", "quantidade": 1, "defesa": 4},
+"Escudo de Ferro": {"tipo": "equipamento", "quantidade": 1, "defesa": 4},
 
-"Armadura de Malha" : {"tipo": "armadura", "quantidade": 1, "defesa": 7},
+"Escudo de Obsidiana": {"tipo": "equipamento", "quantidade": 1, "defesa": 8},
 
-"Armadura de Ferro" : {"tipo": "armadura", "quantidade": 1, "defesa": 9},
+"Amolador de Espada": {"tipo": "equipamento", "quantidade": 1, "dano": random.randint(1, 4)},
 
-"Armadura de Diamante" : {"tipo": "armadura", "quantidade": 1, "defesa": 15},
+"Soco ingles": {"tipo": "equipamento", "quantidade": 1, "dano": random.randint(2, 3)},
+
+
+"Armadura de Sucata": {"tipo": "armadura", "quantidade": 1, "defesa": 7},
+
+"Armadura de Ferro": {"tipo": "armadura", "quantidade": 1, "defesa": 9},
+
+"Armadura de Diamante": {"tipo": "armadura", "quantidade": 1, "defesa": 15},
 
 
 "Carne Magra": {"tipo": "comida", "quantidade": 1, "energia": 20},
@@ -70,6 +81,12 @@ banco_de_itens = {
 "Cogumelo Amanita muscaria": {"tipo": "comida", "quantidade": 1, "energia": -50},
 
 "Maça": {"tipo": "comida", "quantidade": 1, "energia": 6},
+
+"Pão": {"tipo": "comida", "quantidade": 1, "energia": 15},
+
+"Mel": {"tipo": "comida", "quantidade": 1, "energia": 15},
+
+"BOLACHINHA": {"tipo": "comida", "quantidade": 1, "energia": random.randint(-15, 45)},
 
 
 "Poção de Cura pequena": {"tipo": "cura", "quantidade": 1, "cura": 10},
@@ -103,7 +120,9 @@ banco_de_itens = {
 }
 
 receitas = {
+
     # Armas
+
     "Espada de Madeira": {
         "Madeira": 4,
         "Graveto": 1,
@@ -123,7 +142,7 @@ receitas = {
     },
 
     "Espada de Obsidiana": {
-        "Obsidiana" : 5,
+        "Obsidiana": 5,
         "Madeira": 1,
         "Sipó": 2
     },
@@ -139,7 +158,9 @@ receitas = {
         "Sipó": 1
     },
 
-    # Armaduras
+
+    # Escudos
+
     "Escudo de Madeira": {
         "Madeira": 4,
         "Sipó": 2
@@ -151,8 +172,17 @@ receitas = {
         "Sipó": 2
     },
 
-    "Armadura de Malha": {
-        "Ferro": 5,
+    "Escudo de Obsidiana": {
+        "Obsidiana": 6,
+        "Madeira": 2,
+        "Sipó": 2
+    },
+
+
+    # Armaduras
+
+    "Armadura de Sucata": {
+        "Ferro": 3,
         "Pano": 2
     },
 
@@ -167,25 +197,35 @@ receitas = {
         "Pano": 2
     },
 
-        "Armadura de Obsidiana": {
-                "Obsidiana": 8,
-                "Diamante": 4,
-                "Ferro": 4,
-                "Pano": 2
-                },
 
-        #comidas
-        "Carne Magra assada": {
-                        "Carne Magra": 2,
-                        "Carvão": 2
-                },
+    # Equipamentos
 
-        "Carne Gorda assada": {
-                        "Carne gorda": 2,
-                        "Carvão": 2
-                },        
+    "Amolador de Espada": {
+        "Pedra": 2,
+        "Ferro": 1
+    },
+
+    "Soco ingles": {
+        "Ferro": 2,
+        "Pano": 1
+    },
+
+
+    # Comidas
+
+    "Carne Magra assada": {
+        "Carne Magra": 2,
+        "Carvão": 2
+    },
+
+    "Carne Gorda assada": {
+        "Carne Gorda": 2,
+        "Carvão": 2
+    },
+
 
     # Itens de cura
+
     "Poção de Cura pequena": {
         "Cogumelo Champignon": 2,
         "Maça": 1
@@ -825,7 +865,7 @@ def golem():
                                 coletar_recurso("Obsidiana", 3)  
 #                              
 def ver_ficha():
-    print(f"\n ======== Ficha De Aventureiro ==========\n | Nome: {jogador} | Classe: {classe} | Biotipo: {biotipo} |\n | {N_AZUL}dano: {dano}{RESET} | {N_AZUL}defesa: {defesa}{RESET} | {N_VERMELHO}Vida: {vida}/{vida_max}{RESET} | {N_LARANJA}Energia: {energia}/{energia_max}{RESET} |\n | {rank_cor}Level: {level}({rank_texto}){RESET} | {N_AMARELO}XP: {xp}/10{RESET} | {N_AMARELO}Bônus XP: {bonus_xp}{RESET} | \n | Arma: {arma_atual} (+{dano_arma} dano) | Armadura: {armadura_atual} (+{defesa_armadura} defesa)\n ========================================")
+    print(f"\n ======== Ficha De Aventureiro ==========\n | Nome: {jogador} | Classe: {classe} | Biotipo: {biotipo} |\n | {N_AZUL}dano: {dano}{RESET} | {N_AZUL}defesa: {defesa}{RESET} | {N_VERMELHO}Vida: {vida}/{vida_max}{RESET} | {N_LARANJA}Energia: {energia}/{energia_max}{RESET} |\n | {rank_cor}Level: {level}({rank_texto}){RESET} | {N_AMARELO}XP: {xp}/10{RESET} | {N_AMARELO}Bônus XP: {bonus_xp}{RESET} | \n | Arma: {arma_atual} (+{dano_arma} dano) | Armadura: {armadura_atual} (+{defesa_armadura} defesa) | Equipamento: {equipamento_atual} (+ {dano_equipamento} dano/ {defesa_equipamento}) defesa | \n | Batalhas: {batalhas}\n ========================================")
     time.sleep(2)
 
 
@@ -972,8 +1012,10 @@ def usar_item():
                 print("Seu inventario esta vazio!")
                 return
 
-        escolha = int(input("Numero do item: "))        
-        i = escolha - 1
+        exibir_mochila()
+
+        num = int(input("Numero do item: "))       
+        i = num - 1
 
         if i < 0 or i > len(lista_nomes) - 1:
                 print("\n*Item inexistente*")
@@ -982,32 +1024,76 @@ def usar_item():
         nome_item = lista_nomes[i]
         dados_item = inventario[nome_item]
 
-        if dados_item["tipo"] == "arma":
-                arma_atual = nome_item
-                dano_arma = dados_item["dano"]
-                print(f"{C_VERDE}Você equipou {nome_item} (+{dano_arma} dano){RESET}")
+        if dados_item["tipo"] != "arma" and dados_item["tipo"] != "armadura" and dados_item["tipo"] != "material":
+                qtd = int(input("Quantidade: "))
+                usar = input(f"Você quer usar: {qtd} {nome_item}?(S/N): ")
+        else:
+                usar = input(f"Você quer usar: {nome_item}?(S/N): ")
+                qtd = 1
 
-        if dados_item["tipo"] == "cura":
+        if dados_item["tipo"] == "arma" and usar.upper() == "S":
+                if nome_item == arma_atual:
+                        print("Você ja está usando este item...")
+                        return
+                else:
+                        if arma_atual != "nenhuma":
+                                coletar_auto(arma_atual, 1)
+                                print(f"{nome_item} voltou ao inventario.")
+                        arma_atual = nome_item
+                        dano_arma = dados_item["dano"]
+                        print(f"{C_VERDE}Você equipou {nome_item} (+{dano_arma} dano){RESET}")
+
+        elif dados_item["tipo"] == "cura" and usar.upper() == "S":
                 vida += dados_item['cura']
                 print(f"{C_VERDE}Você usou {nome_item} (+{dados_item['cura']} vida)({vida}/{vida_max}){RESET}")
 
-        if dados_item["tipo"] == "armadura":
-                armadura_atual = nome_item
-                defesa_armadura = dados_item['defesa']
-                print(f"{C_VERDE}Você equipou {nome_item} (+ {defesa_armadura} defesa){RESET}")
+        elif dados_item["tipo"] == "armadura" and usar.upper() == "S":
+                if nome_item == arma_atual:
+                        print("Você ja está usando este item...")
+                        return
+                else:
+                        if armadura_atual != "nenhuma":
+                                coletar_auto(arma_atual, 1)
+                                print(f"{nome_item} voltou ao inventario.")
+                        armadura_atual = nome_item
+                        defesa_armadura = dados_item['defesa']
+                        print(f"{C_VERDE}Você equipou {nome_item} (+ {defesa_armadura} defesa){RESET}")
 
-        if dados_item["tipo"] == "comida":
+        elif dados_item["tipo"] == "equipamento" and usar.upper() == "S":
+                if nome_item == equipamento_atual:
+                        print("Você ja está usando este item...")
+                        return
+                else:
+                        if equipamento_atual != "nenhuma":
+                                coletar_auto(equipamento_atual, 1)
+                                print(f"{nome_item} voltou ao inventario.")
+                        equipamento_atual = nome_item
+                        if dados_item['defesa']:
+                                defesa_equipamento += dados_item['defesa']
+                                dano_equipamento = 0
+                                print(f"{C_VERDE}Você equipou {nome_item} (+ {defesa_equipamento} defesa bonus){RESET}")
+                        elif dados_item['dano']:
+                                dano_equipamento += dados_item['dano']
+                                defesa_equipamento = 0
+                                print(f"{C_VERDE}Você equipou {nome_item} (+ {dano_equipamento} dano bonus){RESET}")
+
+        elif dados_item["tipo"] == "comida" and usar.upper() == "S":
                 energia += dados_item['energia']
                 print(f"{C_VERDE}Você comeu {nome_item} (+{dados_item['energia']} energia)({energia}/{energia_max}){RESET}")
 
-        if dados_item["tipo"] == "material":
+        elif dados_item["tipo"] == "material" and usar.upper() == "S":
                         print("Você não pode usar/equipar um material")
                         return
 
-        inventario[nome_item]['quantidade'] -= 1
+        if inventario[nome_item]['quantidade'] >= qtd:
+                inventario[nome_item]['quantidade'] -= qtd
+        else:
+                print(f"{C_VERMELHO}Você não tem {qtd} {nome_item} para ser usado...{RESET}")
+                return
+
         if inventario[nome_item]['quantidade'] == 0:
                 del inventario[nome_item]
-        print(f"1 {nome_item} foi tirado do inventario")
+        print(f"{qtd} {nome_item} foi tirado do inventario")
         exibir_mochila()        
         limitar_status()
 
@@ -1189,7 +1275,10 @@ def coleta():
                 coletar_auto(item1, qtd1)
                 coletar_auto(item2, qtd2)
 
-                print(f"\nVocê achou {qtd1} {item1} e {qtd2} {item2}\n")
+                if item1 == item2:
+                        print("Você achou {qtd1 + qtd2} {item1}.")
+                else:
+                        print(f"\nVocê achou {qtd1} {item1} e {qtd2} {item2}\n")
         energia -= 15
 
         print(f"Voce gastou {N_LARANJA}15 energia{RESET}({energia}/{energia_max})")
@@ -1237,5 +1326,3 @@ while vida > 0:
 print(f"\n{F_VERMELHO}{C_BRANCO} === Fim de Jogo === {RESET}\n")
 print("Atributos conquistados:\n")
 ver_ficha()
-print("batalhas: ", batalhas)
-
