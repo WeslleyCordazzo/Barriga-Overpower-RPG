@@ -308,16 +308,16 @@ def cadastro():
                         print("Comando inexistente...\n")
 
         #modo admin de teste
-        if jogador == "weslley safadao" and n_classe == 1:
+        if jogador == "safadao" and n_classe == 3:
                 print("Ativando modo tiki yara aura admin...")
-                time.sleep(3)
+                time.sleep(1)
                 ganhar_xp(10000)        
-                biotipo = "Disciplinudo"
+                biotipo = "Larper GOD"
                 b_txt = "+ 9999 aura"
-                coletar_auto('Espada de Obsidiana', 2)
-                coletar_auto('Madeira', 5)
-                coletar_auto("Armadura de Diamante", 1)
-                coletar_auto("kit médico completo", 3)
+                coletar_auto('Espada de Obsidiana', 10)
+                coletar_auto("Armadura de Diamante", 10)
+                coletar_auto("kit médico completo", 99)
+                coletar_auto("BOLACHINHA", 50)
                 coletar_auto("Madeira", 99)
                 coletar_auto("Pedra", 99)
                 coletar_auto("Ferro", 99)
@@ -326,7 +326,7 @@ def cadastro():
                 coletar_auto("Diamante", 99)
                 coletar_auto("Graveto", 99)
                 coletar_auto("Pano", 99)
-                #
+        #
 
         if n_classe not in range(1, 5):
                 n_classe = random.randint(1, 4)
@@ -504,7 +504,7 @@ def acoes():
 #                                                        
 
 def explorar():
-        global local
+        global local, energia
         while True:
                 esc = input(f"\n{C_ROXO}Você está em {local}.{RESET}\n O que devo fazer?\n1 - explorar a área\n2 - explorar outro local\n3 - desistir de explorar\n: ")
 
@@ -526,57 +526,35 @@ def explorar():
 
                 elif esc == "2":
                         while True:
-                                esc = input("\nPara onde devo ir?\n 1 - vila (lv. min:0)\n2 - floresta (lv. min:3)\n3 - rio (lv. min:8)\n4 - montanha (lv. min:12)")
-                                if esc == "1":  
-                                        local_antigo = local
+                                esc = input("\nPara onde devo ir?\n1 - vila (lv. min:0)\n2 - floresta (lv. min:3)\n3 - rio (lv. min:8)\n4 - montanha (lv. min:12)\n5 - voltar\n: ")
+                                local_antigo = local
+                                if esc == "1":
                                         local = "vila"
-                                        if local == local_antigo:
-                                                print(f"Você ja está em {C_ROXO}{local}...{RESET}")
-                                                break
-                                        else:
-                                                print(f"Você chegou a {C_ROXO}{local}{RESET}!")
-                                                break
-                                elif esc == "2":
-                                        if level < 3:
-                                                print("Você desistiu de ir por medo...")
-                                                break
-                                        local_antigo = local
+                                        lm = 0
+                                elif esc =="2":
                                         local = "floresta"
-                                        if local == local_antigo:
-                                                print(f"Você ja está em {C_ROXO}{local}...{RESET}")
-                                                break
-                                        else:
-                                                print(f"Você chegou a {C_ROXO}{local}{RESET}!")
-                                                break
-                                elif esc == "3":
-                                        if level < 8:
-                                                print("Você desistiu de ir por medo...")
-                                                break
-                                        local_antigo = local
+                                        lm = 3
+                                elif esc =="3":
                                         local = "rio"
-                                        if local == local_antigo:
-                                                print(f"Você ja está em {C_ROXO}{local}...{RESET}")
-                                                break
-                                        else:
-                                                print(f"Você chegou a {C_ROXO}{local}{RESET}!")
-                                                break
-                                elif esc == "4":
-                                        if level < 12:
-                                                print("Você desistiu de ir por medo...")
-                                                break
-                                        local_antigo = local
+                                        lm = 8
+                                elif esc =="4":
                                         local = "montanha"
-                                        if local == local_antigo:
-                                                print(f"Você ja está em {C_ROXO}{local}...{RESET}")
-                                                break
-                                        else:
-                                                print(f"Você chegou a {C_ROXO}{local}{RESET}!")
-                                                break
+                                        lm = 12
+                                elif esc =="5":
+                                        break
                                 else:
                                         print("escolha inexistente")
-                        
-                        energia -= 15
-                        print(f"Você perdeu 15 energia andando...{energia}/{energia_max}")
+
+                                if local == local_antigo:
+                                        print(f"Você ja está em {C_ROXO}{local}...{RESET}")
+                                        break
+                                elif lm > level:
+                                        print(f"Você sente que ainda não enta pronto...  (faltam {lm - level} niveis)")
+                                else:
+                                        print(f"Você chegou a {C_ROXO}{local}{RESET}!")
+                                        energia -= 15
+                                        print(f"Você perdeu 15 energia andando...{energia}/{energia_max}")
+                                        break
 
                 elif esc == "3":
                         break
@@ -642,8 +620,8 @@ def ladrao():
         lista = list(inventario.keys())
         if len(lista) > 0:
                 item = lista[1]
-
-                print(f"Passando por um caminho da vila, de repente um aruaceiro te ameaça por {item} de seu inventario.")
+                time.sleep(1)
+                print(f"\nPassando por um caminho da vila, de repente um aruaceiro te ameaça por {item} de seu inventario.")
                 time.sleep(1)
                 while True:
                         esc = input(f"O que fazer?\n1 - lutar\n2 - entregar todos {item} do inventario\n: ")
@@ -667,7 +645,8 @@ def ladrao():
 #
 def senhora():
         global energia
-        print("Enquanto andava pela vila...\n")
+        time.sleep(1)
+        print("\nEnquanto andava pela vila...\n")
         time.sleep(0.6)
         esc = input("Idosa - Olá meu fi, poderia me ajudar a procurar meu gatinho?\njusto agora que eu ia castrar ele...\n\nO que fazer?\n1 - Ajudar\n2 - Deixar a dignidade do gato\n:")
         while True:
@@ -689,6 +668,27 @@ def senhora():
                         break
                 else:
                         print("Escolha inválida...")
+
+def vendedor():
+        time.sleep(0,5)
+        print("(Ao andar pelas ruas da vila, você avista um cara estranho numa barraca.)")
+        time.sleep(0,7)
+        print("Vendedor - Olá! vejo que você está precisando de alguns items, hum?")
+        time.sleep(0,5)
+        print("\nVendedor - fique a vontade e escolha")
+        time.sleep(0,5)
+        print("Mas eu nao tenho dinheiro...")
+        time.sleep(0,5)
+        print("Você pode pagar com algo mais valioso.")
+        print("SEU TEMPO DE VIDA!!")
+        time.sleep(0,5)
+
+        preco1 = random.randint(5, 10)
+        esc = input("")
+
+
+
+        
 ### eventos floresta
 def lobo():
                 time.sleep(1)
@@ -731,11 +731,13 @@ def macieira():
         else:
                 macas = 8
 
-        print(f"Voce achou uma macieira {tamanho}")
+        time.sleep(1)
+        print(f"\nVoce achou uma macieira {tamanho}")
         coletar_recurso("Maça", macas)
 
 def lenhador():
-        print("Você acaba encontrando um lenhador cortando arvores perto de uma cabana...")
+        time.sleep(1)
+        print("\nVocê acaba encontrando um lenhador cortando arvores perto de uma cabana...")
         time.sleep(0.7)
         print("-Epa, neném!")
         time.sleep(0.5)
@@ -759,7 +761,8 @@ def lenhador():
 
 def javali():
         global energia
-        print("Você avista de longe um javali grande e gordo aparentemente perdido...")
+        time.sleep(1)
+        print("\nVocê avista de longe um javali grande e gordo aparentemente perdido...")
         time.sleep(1)
         while True:
                 esc = input("O que devo fazer?\n1 - atacar\n2 - ignorar\n: ")
@@ -780,7 +783,8 @@ def javali():
 
 #eventos rio
 def slime():
-        print("Enquanto você caminhava perto do rio, um slime normal bem aguado se aproxima..")
+        time.sleep(1)
+        print("\nEnquanto você caminhava perto do rio, um slime normal bem aguado se aproxima..")
         combate("Slime", 5, range(10, 15), 2)
         time.sleep(1)
         print("Espera.. há mais um levemente maior deles..")
@@ -801,45 +805,86 @@ def troca():
                 if esc == "1":
                         print("Você avança e vê um gogumelo falante cantando algo...")
                         time.sleep(1)
-                        esc = input(f"Gogumelo - Todo {classe} tem um principio acertivo para seguir como base, tal será usada em prol de sua alma em cada batalha, mesmo pessoas com dignidade fraca como você.\nqual a sua se tornará?\n1 - Minha vitalidade.\n2 - Meu combustivel.\n3 - Minha luxuria.\n: ")
-                        if esc == "1":
-                                vida_max += 5
-                                vida += 5
-                                energia_max -=5
-                                energia -= 5
-                                dano -=2
-                                defesa +=2
-                                print("seu corpo ascende ao céu...")
-                        elif esc == "2":
-                                vida_max -= 5
-                                vida -= 5
-                                energia_max +=5
-                                energia += 5
-                                dano +=2
-                                defesa -=2
-                                print("seu corpo ascende a terra...")
-                        elif esc == "3":
-                                vida_max -= 5
-                                vida -= 5
-                                energia_max -=5
-                                energia -= 5
-                                dano -=2
-                                defesa -=2
-                                print("você sonha com prazeres...")
-
+                        while True:
+                                esc = input(f"Gogumelo - Todo {classe} tem um principio acertivo para seguir como base, tal será usada em prol de sua alma em cada batalha, mesmo pessoas com dignidade fraca como você.\nqual a sua se tornará?\n1 - Minha vitalidade.\n2 - Meu combustivel.\n3 - Minha luxuria.\n4 - (ignorar)\n: ")
+                                if esc == "1":
+                                        vida_max += 5
+                                        vida += 5
+                                        energia_max -=5
+                                        energia -= 5
+                                        dano -=2
+                                        defesa +=2
+                                        print("seu corpo ascende ao céu...")
+                                        break
+                                elif esc == "2":
+                                        vida_max -= 5
+                                        vida -= 5
+                                        energia_max +=5
+                                        energia += 5
+                                        dano +=2
+                                        defesa -=2
+                                        print("seu corpo ascende a terra...")
+                                        break
+                                elif esc == "3":
+                                        vida_max -= 5
+                                        vida -= 5
+                                        energia_max -=5
+                                        energia -= 5
+                                        dano -=2
+                                        defesa -=2
+                                        print("você sonha com prazeres...")
+                                        break
+                                elif esc == "4":
+                                        time.sleep(1)
+                                        print("\nDevo estar maluco...\n")
+                                        break
+                                else:
+                                        print("Comando inexistente...")
+                                
                         time.sleep(0.5)
                         print("Você desmaiou...")
                         time.sleep(3)
                         print("\nVocê acordou se sentindo diferente. O que será?")
-                        energia -= 8
-                        print(f"\n você perdeu {N_LARANJA}8 energia{RESET}\n{energia}/{energia_max}")
+                        break
 
-                if esc == "2":
+                elif esc == "2":
+                        time.sleep(0.5)
                         print("Você desvia para longe...")
-                        energia -= 8
-                        print(f"\n você perdeu {N_LARANJA}8 energia{RESET}\n{energia}/{energia_max}")
+                        time.sleep(0.5)
+                        break
+                else:
+                        print("Comando inexistente...")
+        energia -= 8
+        print(f"{N_LARANJA}Você perdeu 8 energia.{RESET}")
 
-
+def colmeia():
+        time.sleep(1)
+        print("Enquanto Caminhava proximo ao rio, de repente, uma colmeia cai sobre sua cabeça!")
+        time.sleep(1)
+        vida -= 6
+        print(f"{N_VERMELHO}Você perdeu 6 vida{RESET}\n")
+        time.sleep(0.5)
+        while True:
+                esc = input("O que devo fazer?\n1 - lutar com as abelhas\n2 - pular na água\n: ")
+                if esc == "1":
+                        combate("abelha", 1, range(10, 24), 1)
+                        combate("abelha", 1, range(10, 24), 1)
+                        combate("abelha", 1, range(10, 24), 1)
+                        combate("Colmeia", 40, range(10, 15), 10)
+                        if vida > 0 :
+                                print("Você acabou com as abelhas!")
+                                coletar_recurso("Mel", 10)
+                        break
+                elif esc == "2":
+                        time.sleep(1)
+                        print("Você pulou no rio...")
+                        time.sleep(2)
+                        print("\nParece que as abelhas ja sairam")
+                        coletar_recurso("Mel, 5")
+                        break
+                else:
+                        print("Comando inexistente...")
+        
 #eventos montanha
 def golem():
         print("Ao andar pelas rochas monte acima, de repente, algumas rochas se juntam e formam um golem enorme.\nele nâo parece estar muito contente em te ver...\n")
@@ -1031,6 +1076,12 @@ def usar_item():
                 usar = input(f"Você quer usar: {nome_item}?(S/N): ")
                 qtd = 1
 
+        if inventario[nome_item]['quantidade'] >= qtd:
+                inventario[nome_item]['quantidade'] -= qtd
+        else:
+                print(f"{C_VERMELHO}Você não tem {qtd} {nome_item} para ser usado...{RESET}")
+                return
+
         if dados_item["tipo"] == "arma" and usar.upper() == "S":
                 if nome_item == arma_atual:
                         print("Você ja está usando este item...")
@@ -1044,7 +1095,7 @@ def usar_item():
                         print(f"{C_VERDE}Você equipou {nome_item} (+{dano_arma} dano){RESET}")
 
         elif dados_item["tipo"] == "cura" and usar.upper() == "S":
-                vida += dados_item['cura']
+                vida += dados_item['cura'] * qtd
                 print(f"{C_VERDE}Você usou {nome_item} (+{dados_item['cura']} vida)({vida}/{vida_max}){RESET}")
 
         elif dados_item["tipo"] == "armadura" and usar.upper() == "S":
@@ -1078,18 +1129,12 @@ def usar_item():
                                 print(f"{C_VERDE}Você equipou {nome_item} (+ {dano_equipamento} dano bonus){RESET}")
 
         elif dados_item["tipo"] == "comida" and usar.upper() == "S":
-                energia += dados_item['energia']
+                energia += dados_item['energia'] * qtd
                 print(f"{C_VERDE}Você comeu {nome_item} (+{dados_item['energia']} energia)({energia}/{energia_max}){RESET}")
 
         elif dados_item["tipo"] == "material" and usar.upper() == "S":
                         print("Você não pode usar/equipar um material")
                         return
-
-        if inventario[nome_item]['quantidade'] >= qtd:
-                inventario[nome_item]['quantidade'] -= qtd
-        else:
-                print(f"{C_VERMELHO}Você não tem {qtd} {nome_item} para ser usado...{RESET}")
-                return
 
         if inventario[nome_item]['quantidade'] == 0:
                 del inventario[nome_item]
@@ -1309,12 +1354,23 @@ def coleta_mina():
         limitar_status()
 
 # inicio
-print(f"{F_BRANCO}{C_PRETO} ==BARRIGA OVERPOWER==\n\torigens{RESET}")
-input("\nPressione enter para jogar\n")
+print("""
+             ████   ███  ████  ████  ███  ███   ███      ███  █   █ █████ ████  ████   ███  █   █ █████ ████                 
+             █░░░█ █ ░░█ █░░░█ █░░░█  █░░█ ░░░ █ ░░█    █ ░░█ █░  █░█░░░░░█░░░█ █░░░█ █ ░░█ █░  █░█░░░░░█░░░█                
+████ ████    ████░░█████░████░░████░░ █░░█░ ██░█████░   █░ ░█░█░░ █░████░░████░░████░░█░ ░█░█░█ █░████░░████░░   ████ ████   
+ ░░░░ ░░░░   █░░░█ █░░░█░█░░█░ █░░█░ ░█░░█░░ █░█░░░█░░  █░░ █░░█░█ ░█░░░░ █░░█░ █░░░░ █░░ █░██░██░█░░░░ █░░█░ ░   ░░░░ ░░░░  
+  ░░░░ ░░░░  ████░░█░░░█░█░░░█░█░░░█░███░ ███ ░█░░░█░░   ███ ░░ █ ░ █████░█░░░█░█░░░░░ ███ ░█░░ █░█████░█░░░█░     ░░░░ ░░░░ 
+              ░░░░ ░░░  ░░░░  ░ ░░  ░ ░░░  ░░░ ░░░  ░░    ░░░ ░  ░ ░ ░░░░░ ░░  ░ ░░     ░░░ ░░░░ ░░░░░░░ ░░  ░               
+                 
+                               ███     ████     ███     ███     █████    █   █     ████ 
+                              █   █    █   █     █     █        █        ██  █    █     
+                              █   █    ████      █     █  ██    ████     █ █ █     ███  
+                              █   █    █  █      █     █   █    █        █  ██        █ 
+                               ███     █   █    ███     ███     █████    █   █    ████""")
+input("\n\t\t\t\t\tPressione enter para jogar\n")
 
 # historia
 ver_historia = input("Deseja ver a História inicial? (S/N): ")
-
 if ver_historia.lower() == "s":
     historia()        
 
