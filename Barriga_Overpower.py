@@ -563,16 +563,17 @@ def explorar():
                         print("escolha inexistente...\n")
 
 def explorar_vila():
-        n = random.randint(1, 2)
+        n = random.randint(1, 5)
         if n == 1:
                 ladrao()
         elif n == 2:
                 senhora()
-        #elif n == 3:
-
-        ##elif n == 4:
-           
-        #elif n == 5:
+        elif n == 3:
+                vendedor()
+        elif n == 4:
+                mendigo()
+        elif n == 5:
+                mercenario()
            
 
 def explorar_floresta():
@@ -680,15 +681,114 @@ def vendedor():
         print("Mas eu nao tenho dinheiro...")
         time.sleep(0,5)
         print("Você pode pagar com algo mais valioso.")
-        print("SEU TEMPO DE VIDA!!")
-        time.sleep(0,5)
+        while True:
+                acao = input(f"""O que devo escolher?
+        vida: {N_VERMELHO}{vida}.{RESET} energia: {N_LARANJA}{energia}{RESET}
+        
+        1 | -15 energia => +5 energia maxima
+        2 | -15 vida => +5 vida maxima
+        (0 para ignorar)
+        : """)
+                time.sleep(0,5)
 
-        preco1 = random.randint(5, 10)
-        esc = input("")
+                if acao == "1":
+                        if energia >= 15:
+                                energia -= 15
+                                energia_max += 5
+                                print("Vendedor - Boa escolha, rapaz.")
+                        else:
+                                print("Vendedor - Não tenho nada para tirar desse seu corpo mole, rapaz")
+                        break
+                elif acao == "2":
+                        if vida >= 15:
+                                vida -= 15
+                                vida_max += 5
+                                print("Vendedor - Boa escolha, garoto")
+                        else:
+                                print("Vendedor - Não tenho nada para tirar desse seu corpo mole, garoto")
+                                break
+                elif acao == "0":
+                        break
+                else:
+                        print("acão inválida...\n")
 
-
+                print("(o vendedor desaparece...)")
 
         
+
+def mendigo():
+        time.sleep(1)
+        print("(voce acaba achando uma moeda no chao da estrada)")
+        time.sleep(0.5)
+        print("mendigo - eI! dAn@Du!")
+        time.sleep(0.5)
+        print("mendigo - dEvoLVi!\n")
+        time.sleep(0.5)
+        print("Mas isso tava no chao.")
+        time.sleep(0.5)
+        print("(o mendigo puxa uma pequena faca de cozinha)")
+
+        acao = input("O que devo fazer?\n1 - devolver a moeda\n2 - cair na luta contra um mendigo bebado\n3 -  fujir com a moeda")
+        while True:
+                if acao == "1":
+                        print("\n(Você da a moeda para o mendigo, mas ele ainda esta bravo?)")
+                        combate("Mendigo", 30, range(16, 23), 9)
+                        if vida > 0:
+                                coletar_recurso("Adaga improvisada", 1)
+                                coletar_recurso("Pano", 5)
+                        break
+                elif acao == "2":
+                        combate("Mendigo", 30, range(16, 23), 9)
+                        if vida > 0:
+                                coletar_recurso("Adaga improvisada", 1)
+                                coletar_recurso("Pano", 5)
+                        break
+                elif acao == "3":
+                        if random.randint(1,3) != 3:
+                                print("\nVocê conseguiu escapar de um mendigo mancando...")
+                                time.sleep(0.5)
+                                print("mas cade a moeda???")
+                        else:
+                                print("o mendigo te segurou antes de você tentar correr...")
+                                time.sleep(0.5)
+                                combate("Mendigo", 30, range(16, 23), 9)
+                                if vida > 0:
+                                        coletar_recurso("Adaga improvisada", 1)
+                                        coletar_recurso("Pano", 5)
+                        break
+                else:
+                        print("acao inexistente...")
+
+
+def mercenario():
+
+        print("No meio de uma caminhada na vila, um mercenario surge te oferecendo uma casa, basta apenas ir a uma palestra")
+        time.sleep(1)
+        while True:
+                acao = input("O que devo fazer?\n1 - dar uma voadora no vendedor\n2 - aceitar\n3 - ignorar")
+                if acao == "1":
+                        print("voce da um chute na cara do vendedor pilantra!")
+                        time.sleep(0.5)
+                        combate("Mercenario", 50, range(15, 24), 20)
+                        if vida > 0:
+                                coletar_recurso("Diamante", 7)
+                                coletar_recurso("Soco ingles", 1)
+                        break
+                elif acao == "2":
+                        time.sleep(2)
+                        print("o vendedor te acompanha a um lugar remoto...")
+                        time.sleep(3)
+                        print("mas de repente 3 homens te nocauteiam!")
+                        time.sleep(1)
+                        print("voce acorda, ainda sendo levado e tenta revidar sorrateiramente.")
+                        combate("Brutamontes", 70, range(24, 30), 26)
+                        if vida > 0:
+                                coletar_recurso("Diamante", 15)
+                                coletar_recurso("Soco ingles", 4)
+                        break
+                else:
+                        print("acao inexistente...")
+
 ### eventos floresta
 def lobo():
                 time.sleep(1)
@@ -884,6 +984,27 @@ def colmeia():
                         break
                 else:
                         print("Comando inexistente...")
+
+def mimico():
+        print("Andando perto ao rio, você acaba achando um bau numa area aberta, parece ater ter algo se mechendo dentro.")
+        time.sleep(1)
+        while True:
+                acao = input("\nO que devo fazer?\n1 - abrir\n2 - ignorar\n:")
+                if acao == "1":
+                        time.sleep(1)
+                        print("Ao tentar abrir o bau, de repente ele se revela um mimico e morde tua mão!")
+                        vida -= 10
+                        if vida > 0:
+                                combate("Mimico", 70, range(25, 45), 21)
+                                if vida > 0 :
+                                        coletar_recurso(random.choice(banco_de_itens), 1)
+                        break
+                elif acao == "2":
+                        time.sleep(1)
+                        print("voce continuou caminhando...")
+                        break
+                else:
+                        print("acao inexistente...")
         
 #eventos montanha
 def golem():
