@@ -20,7 +20,6 @@ dano_arma = 0
 defesa_armadura = 0
 dano_equipamento = 0
 defesa_equipamento = 0
-
 #
 biotipos = ["Robusto", "Ágil", "Resistente", "Intelectual"]
 biotipo = ""
@@ -34,7 +33,6 @@ inventario = {}
 locais = ["vila", "floresta", "montanha", "rio"]
 local_antigo = ""
 local = "vila"
-eventos_f = []
 
 banco_de_itens = {
 "Espada de Madeira": {"tipo": "arma", "quantidade": 1, "dano": 5},
@@ -120,7 +118,6 @@ banco_de_itens = {
 }
 
 receitas = {
-
     # Armas
 
     "Espada de Madeira": {
@@ -291,7 +288,9 @@ rank_texto = "Iniciante"
 def cadastro():
         global jogador, biotipo, vida, energia, vida_max, energia_max, dano, defesa, classe, bonus_xp
 
-        jogador = input("\nBoas Vindas novo aventureiro! Gostaria de se registrar?\nPrimeiro, Como você gostaria de ser chamado?\n:")
+        print("\n ??? - Boas Vindas novo aventureiro! Meu nome é luna, como poderia te ajudar?")
+        time.sleep(0.2)
+        jogador = input(" Luna - Gostaria de se registrar?\nPrimeiro, Qual seu nome?\n:")
         while True:
                 try:
                         n_classe = int(input("""Qual é a sua classe?
@@ -364,13 +363,11 @@ def cadastro():
                         bonus_xp += 2
                         b_txt = "+2 Bônus de XP"
 
-
-        print(f"\nSeu Biotipo ideal classificado nos testes é: {biotipo} ({b_txt})")                
-
+        print(" Luna - preciso que você segure esta bola de cristal.")
+        time.sleep(0.2)
+        print(f"\n Luna - Ótimo! Seu Biotipo ideal classificado nos testes é: {biotipo} ({b_txt})")                
         ver_ficha()
-
-        input("Seu cadastro de aventureiro foi concluido!\n-Aperte enter para comecar sua jornada.")
-
+        input(" Luna - Seu cadastro de aventureiro foi concluido! Você está pronto para começar sua jornada.\n precione enter para continuar")
 
 
 def historia():
@@ -484,7 +481,7 @@ def acoes():
                 
                 - O que devo fazer agora?
                 =
-                | 1 - Explorar a floresta  ===========|
+                | 1 - Explorar =======================|
                 | 2 - Inventário/Criar item  =========|
                 | 3 - Checar Ficha  ==================|
                 | 4 - Pegar recursos  ================| 
@@ -591,30 +588,30 @@ def explorar_floresta():
 
 
 def explorar_rio():
-        n = random.randint(1, 2)
+        n = random.randint(1, 5)
         if n == 1:
                 slime()
         elif n == 2:
                 troca()
-        #elif n == 3:
-
-        ##elif n == 4:
-           
-        #elif n == 5:
-
+        elif n == 3:
+                colmeia()
+        elif n == 4:
+                mimico()
+        elif n == 5:
+                vericidade()
 
 def explorar_montanha():
-        n = 1#random.randint(1, 5)
+        n = random.randint(1, 5)
         if n == 1:
-            golem()
-        #elif n == 2:
-   
-        #elif n == 3:
-
-        ##elif n == 4:
-           
-        #elif n == 5:
-
+                golem()
+        elif n == 2:
+                veio_minerio()
+        elif n == 3:
+                caverna()
+        elif n == 4:
+                mineiro()
+        elif n == 5:
+            deslizamento()
 
 #eventos vila
 def ladrao():
@@ -1006,6 +1003,34 @@ def mimico():
                 else:
                         print("acao inexistente...")
         
+
+def vericidade():
+        print("Caminhando proximo ao rio, você encontra uma caixa se movendo...")
+        print("Mas de repente, dentro dela sai um emoji sorridente.")
+        time.sleep(1)
+        print("??? - Olá sou o vericidade, seu assistente pessoal, eu sei de tudo, me pergunte qualquer coisa.")
+        while True:
+                acao = input("\n1 - Qual a capital da frança?\n2 - Que som a vaca faz?\n3 - (ataca-lo)")
+
+                if acao == "1":
+                        print("Oui Oui Oui! a resposta é paris!")
+                        break
+                elif acao == "2":
+                        print("Muu Muu Muu! Eu posso imitar ela tambem!")
+                        break
+                elif acao == "3":
+                        print("Você o irritou! e de repente ele se transforma num bixo maligno!")
+                        time.sleep(1)
+                        combate("A VERDADE", 70, range(30, 45), 16)
+                        if vida > 0:
+                                coletar_recurso("BOLACHINHA", 3)
+                                coletar_recurso("Poção de Cura", 3)
+                                print("você o derrotou...")
+                        break
+                else:
+                        print("Escolha inexistente...")
+
+
 #eventos montanha
 def golem():
         print("Ao andar pelas rochas monte acima, de repente, algumas rochas se juntam e formam um golem enorme.\nele nâo parece estar muito contente em te ver...\n")
@@ -1029,10 +1054,122 @@ def golem():
                                 coletar_recurso("Pedra", 40)
                                 coletar_recurso("Ferro", 10)
                                 coletar_recurso("Obsidiana", 3)  
-#                              
+                        break
+                else:
+                        print("Escolha inexistente...")
+#
+def deslizamento():
+        global vida, energia
+        print("\nEnquanto subia a montanha, algumas pedras começam a deslizar em sua direção!")
+        time.sleep(1)
+
+        esc = input("O que fazer?\n1 - Correr\n2 - Procurar abrigo\n: ")
+
+        if esc == "1":
+                if random.randint(1, 3) != 1:
+                        print("Você conseguiu escapar das pedras!")
+                        energia -= 5
+                else:
+                        print("Você não conseguiu escapar a tempo!")
+                        vida -= 8
+        elif esc == "2":
+                print("Você se protege atrás de uma grande rocha.")
+                vida -= 3
+        else:
+                print("Você hesitou e acabou se machucando!")
+                vida -= 5
+
+        limitar_status()
+        print(f"Vida: {vida}/{vida_max} | Energia: {energia}/{energia_max}")
+#
+
+def veio_minerio():
+        print("\nVocê encontra uma parede rochosa cheia de minérios!")
+        time.sleep(1)
+
+        print("Após procurar um pouco, você consegue extrair alguns materiais.")
+        coletar_recurso("Pedra", random.randint(5, 12))
+        coletar_recurso("Ferro", random.randint(2, 6))
+
+        if random.randint(1, 3) == 1:
+                print("Você encontrou um pequeno fragmento de diamante!")
+                coletar_recurso("Diamante", 1)
+# 
+
+def caverna():
+        global vida, energia
+
+        print("\nDurante a exploração, você encontra uma caverna escura.")
+        time.sleep(1)
+
+        while True:
+                esc = input("O que fazer?\n1 - Explorar a caverna\n2 - Continuar andando\n: ")
+
+                if esc == "1":
+                        print("Você entra na caverna e procura por tesouros.")
+                        energia -= 8
+
+                        if random.randint(1, 3) != 1:
+                                print("Você encontra materiais raros!")
+                                coletar_recurso("Obsidiana", random.randint(1, 3))
+                                coletar_recurso("Carvão", random.randint(2, 5))
+                        else:
+                                print("Uma queda de pedras bloqueia seu caminho!")
+                                vida -= 10
+                                limitar_status()
+
+                        break
+
+                elif esc == "2":
+                        print("Você decide não arriscar e continua sua jornada.")
+                        break
+
+                else:
+                        print("Escolha inválida...")
+
+        print(f"Vida: {vida}/{vida_max} | Energia: {energia}/{energia_max}")     
+#
+
+def mineiro():
+        print("\nPerto de uma formação rochosa, você encontra um mineiro perdido.")
+        time.sleep(1)
+
+        print("Mineiro - Ei, aventureiro! Você pode me ajudar?")
+        print("Mineiro - Preciso de pedras para terminar meu equipamento.")
+
+        while True:
+                esc = input("O que fazer?\n1 - Ajudar\n2 - Recusar\n: ")
+
+                if esc == "1":
+                        pedras = inventario.get("Pedra", {}).get("quantidade", 0)
+
+                        if pedras >= 5:
+                                inventario["Pedra"]["quantidade"] -= 5
+
+                                if inventario["Pedra"]["quantidade"] == 0:
+                                        del inventario["Pedra"]
+
+                                print("Mineiro - Obrigado! Pegue estes materiais como recompensa.")
+                                coletar_recurso("Ferro", 5)
+                                coletar_recurso("Carvão", 3)
+                        else:
+                                print("Você não possui as 5 pedras necessárias.")
+                                print("Mineiro - Volte quando conseguir mais materiais.")
+
+                        break
+
+                elif esc == "2":
+                        print("Você agradece pela conversa e continua sua exploração.")
+                        break
+
+                else:
+                        print("Escolha inválida...")
+#     
+     
 def ver_ficha():
-    print(f"\n ======== Ficha De Aventureiro ==========\n | Nome: {jogador} | Classe: {classe} | Biotipo: {biotipo} |\n | {N_AZUL}dano: {dano}{RESET} | {N_AZUL}defesa: {defesa}{RESET} | {N_VERMELHO}Vida: {vida}/{vida_max}{RESET} | {N_LARANJA}Energia: {energia}/{energia_max}{RESET} |\n | {rank_cor}Level: {level}({rank_texto}){RESET} | {N_AMARELO}XP: {xp}/10{RESET} | {N_AMARELO}Bônus XP: {bonus_xp}{RESET} | \n | Arma: {arma_atual} (+{dano_arma} dano) | Armadura: {armadura_atual} (+{defesa_armadura} defesa) | Equipamento: {equipamento_atual} (+ {dano_equipamento} dano/ {defesa_equipamento}) defesa | \n | Batalhas: {batalhas}\n ========================================")
+    print(f"\n ======== Ficha De Aventureiro ==========\n | Nome: {jogador} | Classe: {classe} | Biotipo: {biotipo} |\n | {N_AZUL}dano: {dano}{RESET} | {N_AZUL}defesa: {defesa}{RESET} | {N_VERMELHO}Vida: {vida}/{vida_max}{RESET} | {N_LARANJA}Energia: {energia}/{energia_max}{RESET} |\n | {rank_cor}Level: {level}({rank_texto}){RESET} | {N_AMARELO}XP: {xp}/10{RESET} | {N_AMARELO}Bônus XP: {bonus_xp}{RESET} | \n | Arma: {arma_atual} (+{dano_arma} dano) | Armadura: {armadura_atual} (+{defesa_armadura} defesa) | Equipamento: {equipamento_atual} (+ {dano_equipamento} dano/ {defesa_equipamento} defesa) | \n | Batalhas: {batalhas}\n ========================================")
     time.sleep(2)
+#
 
 
 def combate(inimigo, vida_inimigo, dano_inimigo, qtd_xp):
@@ -1312,7 +1449,7 @@ def tirar_item():
 def coletar_recurso(item, quantidade):
     global nivel_inv, capacidade
     exibir_mochila()
-    if qtd_livre == 0:
+    if qtd_livre == 0 and item not in inventario:
         print(f"Seu inventario esta cheio!\nVocê nao conseguio coletar {quantidade} {item}")
         return
 
@@ -1347,22 +1484,38 @@ def coletar_auto(item, quantidade):
 
 def ver_criacoes():
         n = 1
-        for item in receitas:
-                materiais = receitas[item]
-                print(f"\n={n}=\n{item} :\n{materiais}")
+        print("\n==================\n")
+        for item, materiais in receitas.items():
+                print(f"\n[{n}] --== {item} ==--")
                 n += 1
+                for material, qtd in materiais.items():
+                        if inventario.get(material, {}).get('quantidades', 0) >= qtd:
+                                cor = N_VERDE
+                        else:
+                                cor = N_VERMELHO
+                        print(f" - {cor}{material} : {qtd}{RESET}")
+        print("\n==================\n")
 #
 
 def criar():
         ver_criacoes()
         receitas_lista = list(receitas.keys())
-        i = int(input("Qual item você gostaria de criar?(0 p/ voltar)\n:")) - 1
+        while True:
+                try:
+                        i = int(input("Qual item você gostaria de criar?(0 p/ voltar)\n:")) - 1
+                        qtd_pedida = int(input("Quantidade: "))
+                        break
+                except ValueError:
+                        print("informe apenas numeros!\n")
 
         if i == -1:
             print("\n")
             return
         if i < 0 or i >= len(receitas_lista):
                 print('\nReceita invalida')
+                return
+        if qtd_pedida <= 0:
+                print("quantidade invalida...\n")
                 return
         
                 
@@ -1373,13 +1526,16 @@ def criar():
         faltando = {}
         for mat, qtd_necessaria in material.items():
                 qtd_atual = inventario.get(mat, {}).get("quantidade", 0)
+                qtd_necessaria *= qtd_pedida
                 if qtd_atual < qtd_necessaria:
                         faltando[mat] = qtd_necessaria - qtd_atual
 
         if faltando:
-                print(f"\n{N_VERMELHO}Você não tem os materiais necessários!{RESET}")
+                print(f"\n{N_VERMELHO}Você não tem os materiais necessários!{RESET}\n")
+                print(f" {N_VERMELHO}faltam :")
                 for mat, qtd in faltando.items():
-                        print(f" - Faltam {qtd}x {mat}")
+                        print(f" - {qtd} : {mat}")
+                print(RESET)
                 return
 
         # ver do espaco
